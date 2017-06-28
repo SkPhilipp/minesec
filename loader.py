@@ -58,7 +58,7 @@ def config(file_paths, reference, default=None):
     """
     >>> config(["./test-resources/loader.yml", "./test-resources/loader2.yml"], "company/name")
     'MineSec'
-    >>> config(["./test-resources/loader.yml", "./test-resources/loader2.yml"], "company/alternative")
+    >>> config(["./test-resources/loader.yml", "./test-resources/loader2.yml"], "company/alternative", "Nice1")
     'MineSec3'
     >>> config(["./test-resources/loader.yml", "./test-resources/loader2.yml"], "invalid/key", "Nice1")
     'Nice1'
