@@ -193,4 +193,6 @@ build-iPhoneSimulator/
 ### Vagrant ###
 .vagrant/
 
-# End of https://www.gitignore.io/api/java,ruby,linux,python,intellij,vagrant
+### MineSec ###
+
+.m/
