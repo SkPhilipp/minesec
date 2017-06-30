@@ -1,0 +1,5 @@
+# Example yaml file
+---
+company:
+  name: MineSec2
+  suffix: Sec2
