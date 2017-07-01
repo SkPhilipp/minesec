@@ -1,17 +1,25 @@
 package net.minesec.index;
 
-import net.minesec.core.Module;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * Copyright (c) 29/06/2017, MineSec. All rights reserved.
  */
-public class BugBountyIndexer extends Module {
+class BugBountyIndexer {
 
-    public Map<String, String> htmlHeaders(URI uri) {
+    private static final ObjectMapper JSON_MAPPER = new ObjectMapper(new JsonFactory());
+
+    private Map<String, String> headers(URI uri) {
         String domain = uri.getHost();
         Map<String, String> headers = new HashMap<>();
         headers.put("DNT", "1");
@@ -25,83 +33,98 @@ public class BugBountyIndexer extends Module {
         return headers;
     }
 
-    public Map<String, String> jsonHeaders(URI uri) {
-        Map<String, String> headers = htmlHeaders(uri);
+    private Map<String, String> jsonHeaders(URI uri) {
+        Map<String, String> headers = headers(uri);
         headers.put("Accept", "application/json, text/javascript, */*; q=0.01");
         headers.put("X-Requested-With", "XMLHttpRequest");
         return headers;
     }
 
-    //    def fetch_html(url):
-    //    req = urllib2.Request(url)
-    //    headers = headers_json(url)
-    //    for key, value in headers.iteritems():
-    //            req.add_header(key, value)
-    //    resp = urllib2.urlopen(req)
-    //    html = resp.read()
-    //            return pq(html)
+    private Element fetch(URI uri) throws IOException {
+        Map<String, String> headers = headers(uri);
+        return Jsoup.connect(uri.toString()).headers(headers).get().body();
+    }
 
-    //    def headers_json(url):
-    //    headers = headers_html(url)
-    //            return headers
+    private JsonNode fetchJson(URI uri) throws IOException {
+        Map<String, String> headers = jsonHeaders(uri);
+        byte[] bytes = Jsoup.connect(uri.toString()).headers(headers).ignoreContentType(true).execute().bodyAsBytes();
+        return JSON_MAPPER.readTree(bytes);
+    }
 
-    //    def fetch_json(url):
-    //    req = urllib2.Request(url)
-    //    headers = headers_html(url)
-    //    for key, value in headers.iteritems():
-    //            req.add_header(key, value)
-    //    resp = urllib2.urlopen(req)
-    //            return resp.read()
+    void indexBugcrowdCurated(Consumer<BugBounty> sink) throws IOException {
+        Element fetch = fetch(URI.create("https://www.bugcrowd.com/bug-bounty-list/"));
+        fetch.select("main table tbody tr").forEach(element -> {
+            BugBounty build = BugBounty.builder()
+                    .source("https://www.bugcrowd.com/bug-bounty-list/")
+                    .page(element.child(0).select("a").attr("abs:href"))
+                    .rewardMonetary(!element.child(2).select("picture").isEmpty())
+                    .rewardOther(!element.child(3).select("picture").isEmpty())
+                    .rewardAcknowledgement(!element.child(4).select("picture").isEmpty())
+                    .build();
+            sink.accept(build);
+        });
+    }
 
-    //    def index_bugcrowd_curated():
-    //    html = fetch_html("https://www.bugcrowd.com/bug-bounty-list/")
-    //    for row in x(html, "//main/table/tbody/tr"):
-    //    print "===================================================="
-    //    print "link", x(row, "//td[nth-child(1)]/a[href]")
-    //    print "reward-money", x(row, "//td[nth-child(3)]/picture")
-    //    print "reward-other", x(row, "//td[nth-child(4)]/picture")
-    //    print "reward-ack", x(row, "//td[nth-child(5)]/picture")
+    private URI indexBugcrowdProgramsUrl(int page) {
+        return URI.create("https://bugcrowd.com/programs?page=" + page);
+    }
 
-    //    def index_bugcrowd_programs():
-    //    def url(page):
-    //            return "https://bugcrowd.com/programs?page=" + page
-    //
-    //            html = fetch_html(url(1))
-    //    while x(html, ".next") is not None:
-    //            for row in x(html, "//ul/li.bounty"):
-    //    print "===================================================="
-    //    print "link", x(row, "h4/a[href]")
-    //    print "reward-money", x(row, ".stat")
-    //    print "reward-other", x(row, ".stat")
-    //    print "reward-ack", x(row, ".stat")
-    //    next_url = x(html, ".next/a[href]")
-    //    html = fetch_html(next_url)
+    void indexBugcrowdPrograms(Consumer<BugBounty> sink) throws IOException {
+        Element page = fetch(indexBugcrowdProgramsUrl(1));
+        while (!page.select(".next").isEmpty()) {
+            page.select("ul li.bounty").forEach(element -> {
+                String reward = element.select(".stat").text();
+                BugBounty build = BugBounty.builder()
+                        .source("https://bugcrowd.com/programs")
+                        .page(element.select("h4 a").attr("abs:href"))
+                        .rewardMonetary(reward.contains("$"))
+                        .rewardOther(false)
+                        .rewardAcknowledgement(reward.contains("Kudos"))
+                        .build();
+                sink.accept(build);
+            });
+            String href = page.select(".next a").attr("abs:href");
+            page = fetch(URI.create(href));
+        }
+    }
 
-    //    def index_vulnerability_lab_curated():
-    //    html = fetch_html("https://www.vulnerability-lab.com/list-of-bug-bounty-programs.php")
-    //    for row in x(html, "//blockquote/table[last-child]/tr"):
-    //    print "===================================================="
-    //    print "link", x(row, "//td[nth-child(1)]/a[href]")
-    //    print "reward-money", x(row, "//td[nth-child(2)]/span[non-empty]")
-    //    print "reward-other", x(row, "//td[nth-child(3)]/span[non-empty]")
-    //    print "reward-ack", x(row, "//td[nth-child(4)]/span[non-empty]")
+    void indexVulnerabilityLabCurated(Consumer<BugBounty> sink) throws IOException {
+        Element fetch = fetch(URI.create("https://www.vulnerability-lab.com/list-of-bug-bounty-programs.php"));
+        fetch.select("blockquote table").last().select("tr").forEach(element -> {
+            BugBounty build = BugBounty.builder()
+                    .source("https://www.vulnerability-lab.com/list-of-bug-bounty-programs.php")
+                    .page(element.child(0).select("a").attr("abs:href"))
+                    .rewardMonetary(element.child(1).text().isEmpty())
+                    .rewardOther(element.child(2).text().isEmpty())
+                    .rewardAcknowledgement(element.child(3).text().isEmpty())
+                    .build();
+            sink.accept(build);
+        });
+    }
 
-    //    def index_hackerone_curated():
-    //    def url(page):
-    //            return "https://hackerone.com/programs/search?query=ibb^%^3Ano^&sort=published_at^%^3Adescending^&page=" + page
-    //
-    //            json = fetch_json(url(1))
-    //    batch_index = 1
-    //    batch_size = j(json, 'limit')
-    //    batch_last = j(json, 'total') / batch_size
-    //    while batch_index <= batch_last:
-    //            for row in j(json, "results"):
-    //    print "===================================================="
-    //    print "link", j(row, "url")
-    //    print "reward-money", j(row, "meta.offers_bounties")
-    //    print "reward-other", j(row, "offers_rewards")
-    //    print "reward-ack", j(row, "offers_thanks")
-    //    batch_index = batch_index + 1
-    //    json = fetch_json(url(batch_index))
+    private URI indexHackeroneCuratedUrl(int page) {
+        return URI.create("https://hackerone.com/programs/search?query=ibb%3Ano&sort=published_at%3Adescending&page=" + page);
+    }
+
+    void indexHackeroneCurated(Consumer<BugBounty> sink) throws IOException {
+        JsonNode node = fetchJson(indexHackeroneCuratedUrl(1));
+        int batchIndex = 1;
+        int batchSize = node.get("limit").asInt();
+        int batchLast = node.get("total").asInt() / batchSize;
+        while (batchIndex < batchLast) {
+            for (JsonNode result : node.get("results")) {
+                BugBounty build = BugBounty.builder()
+                        .source("https://hackerone.com/programs/search")
+                        .page("https://hackerone.com" + result.get("url").textValue())
+                        .rewardMonetary(result.has("meta") && result.get("meta").has("offers_bounties"))
+                        .rewardOther(result.has("offers_rewards"))
+                        .rewardAcknowledgement(result.has("offers_thanks"))
+                        .build();
+                sink.accept(build);
+            }
+            batchIndex++;
+            node = fetchJson(indexHackeroneCuratedUrl(batchIndex));
+        }
+    }
 
 }
