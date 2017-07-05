@@ -107,8 +107,8 @@ instance/
 # Sphinx documentation
 docs/_build/
 
-# PyBuilder
-target/
+# Gradle
+out/
 
 # Jupyter Notebook
 .ipynb_checkpoints
