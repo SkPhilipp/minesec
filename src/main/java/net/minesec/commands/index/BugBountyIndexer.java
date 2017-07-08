@@ -1,4 +1,4 @@
-package net.minesec.index;
+package net.minesec.commands.index;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 /**
  * Copyright (c) 29/06/2017, MineSec. All rights reserved.
  */
-class BugBountyIndexer {
+public class BugBountyIndexer {
 
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper(new JsonFactory());
 

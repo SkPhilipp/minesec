@@ -1,7 +1,7 @@
-package net.minesec.index;
+package net.minesec.commands.index;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import net.minesec.core.Module;
+import net.minesec.core.Command;
 
 import java.io.IOException;
 import java.util.function.Consumer;
@@ -9,21 +9,28 @@ import java.util.function.Consumer;
 /**
  * Copyright (c) 30/06/2017, MineSec. All rights reserved.
  */
-public class BugBountyModule extends Module {
+public class IndexCommand extends Command<IndexCommand.Args> {
+
+    public class Args{}
 
     private BugBountyIndexer bugBountyIndexer;
 
-    public static void main(String[] args) throws IOException {
-        BugBountyModule bugBountyModule = new BugBountyModule();
-        bugBountyModule.execute();
-    }
-
-    public BugBountyModule() {
+    public IndexCommand() {
         this.bugBountyIndexer = new BugBountyIndexer();
     }
 
     @Override
-    public void execute() throws IOException {
+    public String name() {
+        return "index";
+    }
+
+    @Override
+    public Args argsDefault() {
+        return new Args();
+    }
+
+    @Override
+    public void execute(Args args) throws IOException {
         try(JsonGenerator generator = this.openGenerator()) {
             generator.writeStartArray();
             Consumer<BugBounty> bugBountyConsumer = bounty -> {

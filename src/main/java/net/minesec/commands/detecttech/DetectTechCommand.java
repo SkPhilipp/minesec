@@ -1,18 +1,29 @@
-package net.minesec.matching;
+package net.minesec.commands.detecttech;
 
-import net.minesec.core.Module;
+import net.minesec.core.Command;
 
 import java.io.IOException;
 
 /**
  * Copyright (c) 29/06/2017, MineSec. All rights reserved.
  */
-public class Technology extends Module {
-    @Override
-    public void execute() throws IOException {
+public class DetectTechCommand extends Command<DetectTechCommand.Args> {
 
+    public class Args{}
+
+    @Override
+    public String name() {
+        return "detect:tech";
     }
 
+    @Override
+    public Args argsDefault() {
+        return new Args();
+    }
+
+    @Override
+    public void execute(Args args) throws IOException {
+    }
     //    # modules:
     //    #   tech (in=${M_HOME}/tech-matcher.yml, out=${M_HOME}/${target}/tech.yml)
     //    #     for all ${targets}, opens each file of pattern ${tapes} for reading
