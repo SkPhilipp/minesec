@@ -1,6 +1,7 @@
 package net.minesec.commands.attackzip;
 
 import net.minesec.commands.core.Command;
+import net.minesec.commands.core.Context;
 
 import java.io.IOException;
 
@@ -23,7 +24,7 @@ public class AttackZipCommand extends Command<AttackZipCommand.Args> {
     }
 
     @Override
-    public void execute(Args args) throws IOException {
+    public void execute(Context context, Args args) throws IOException {
     }
 
     // gzip bomb ,,, stuff from the tor internet-archive hoster

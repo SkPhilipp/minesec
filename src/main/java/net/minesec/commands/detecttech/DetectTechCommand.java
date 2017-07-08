@@ -1,6 +1,7 @@
 package net.minesec.commands.detecttech;
 
 import net.minesec.commands.core.Command;
+import net.minesec.commands.core.Context;
 
 import java.io.IOException;
 
@@ -23,7 +24,7 @@ public class DetectTechCommand extends Command<DetectTechCommand.Args> {
     }
 
     @Override
-    public void execute(Args args) throws IOException {
+    public void execute(Context context, Args args) throws IOException {
     }
     //    # modules:
     //    #   tech (in=${M_HOME}/tech-matcher.yml, out=${M_HOME}/${target}/tech.yml)

@@ -1,6 +1,7 @@
 package net.minesec.commands.tape;
 
 import net.minesec.commands.core.Command;
+import net.minesec.commands.core.Context;
 
 import java.io.IOException;
 
@@ -23,7 +24,7 @@ public class TapeCommand extends Command<TapeCommand.Args> {
     }
 
     @Override
-    public void execute(Args args) throws IOException {
+    public void execute(Context context, Args args) throws IOException {
     }
     //# m tape start [target:none]
     //#              [port:8888]

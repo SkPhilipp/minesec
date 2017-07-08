@@ -2,6 +2,7 @@ package net.minesec.commands.index;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import net.minesec.commands.core.Command;
+import net.minesec.commands.core.Context;
 
 import java.io.IOException;
 import java.util.function.Consumer;
@@ -31,14 +32,14 @@ public class IndexCommand extends Command<IndexCommand.Args> {
     }
 
     @Override
-    public void execute(Args args) throws IOException {
-        try (JsonGenerator generator = this.openGenerator()) {
+    public void execute(Context context, Args args) throws IOException {
+        try (JsonGenerator generator = context.createGenerator()) {
             generator.writeStartArray();
             Consumer<BugBounty> bugBountyConsumer = bounty -> {
                 try {
                     generator.writeObject(bounty);
                 } catch (IOException e) {
-                    exit(e);
+                    context.exit(e);
                 }
             };
             this.bugBountyIndexer.indexBugcrowdCurated(bugBountyConsumer);

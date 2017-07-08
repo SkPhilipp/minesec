@@ -1,6 +1,7 @@
 package net.minesec.commands.detectvulns;
 
 import net.minesec.commands.core.Command;
+import net.minesec.commands.core.Context;
 
 import java.io.IOException;
 
@@ -23,7 +24,7 @@ public class DetectVulnsCommand extends Command<DetectVulnsCommand.Args> {
     }
 
     @Override
-    public void execute(Args args) throws IOException {
+    public void execute(Context context, Args args) throws IOException {
     }
     //#   vulns (in=${M_HOME}/${target}/tech.yml, out=${M_HOME}/${target}/vulns.yml)
     //#     for all ${targets}, opens each ${in} tech.yml-file for reading

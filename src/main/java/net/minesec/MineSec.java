@@ -1,6 +1,7 @@
 package net.minesec;
 
 import net.minesec.commands.core.Command;
+import net.minesec.commands.core.Context;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -21,12 +22,12 @@ public class MineSec {
         String choice = args[0];
         Command<?> command = ALL_MAPPED.get(choice);
         if (command == null) {
-            System.err.println("Command '" + choice + "' not found.");
-            usage();
+            System.err.println("'" + choice + "' is not a minesec command.");
             exit(1);
         }
         String[] choiceArgs = Arrays.copyOfRange(args, 1, args.length);
-        command.execute(choiceArgs);
+        Context context = new Context();
+        command.execute(context, choiceArgs);
     }
 
     private static void usage() {
