@@ -7,9 +7,10 @@ import java.io.IOException;
 /**
  * Copyright (c) 29/06/2017, MineSec. All rights reserved.
  */
-public class AttackZipCommand extends Command<AttackZipCommand.Args>{
+public class AttackZipCommand extends Command<AttackZipCommand.Args> {
 
-    public class Args{}
+    public static class Args {
+    }
 
     @Override
     public String name() {
@@ -17,7 +18,7 @@ public class AttackZipCommand extends Command<AttackZipCommand.Args>{
     }
 
     @Override
-    public Args argsDefault() {
+    public Args defaults() {
         return new Args();
     }
 

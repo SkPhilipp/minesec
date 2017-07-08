@@ -1,5 +1,6 @@
 package net.minesec.core;
 
+import com.beust.jcommander.JCommander;
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -9,6 +10,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
 
 /**
  * Copyright (c) 29/06/2017, MineSec. All rights reserved.
@@ -34,14 +36,24 @@ public abstract class Command<T> {
     }
 
     protected JsonGenerator openGenerator() throws IOException {
-        return factory.createGenerator(this.out, JsonEncoding.UTF8);
+        return this.factory.createGenerator(this.out, JsonEncoding.UTF8);
+    }
+
+    public void execute(String[] args) throws IOException {
+        String[] choiceArgs = Arrays.copyOfRange(args, 1, args.length);
+        T commandArgs = this.defaults();
+        JCommander.newBuilder()
+                .addObject(commandArgs)
+                .build()
+                .parse(choiceArgs);
+        this.execute(commandArgs);
     }
 
     abstract public String name();
 
-    abstract public T argsDefault();
+    abstract protected T defaults();
 
-    abstract public void execute(T args) throws IOException;
+    abstract protected void execute(T args) throws IOException;
 
     public void exit(Exception e) {
         e.printStackTrace();

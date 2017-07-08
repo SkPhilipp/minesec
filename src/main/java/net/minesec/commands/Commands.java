@@ -8,6 +8,9 @@ import net.minesec.commands.index.IndexCommand;
 import net.minesec.commands.tape.TapeCommand;
 import net.minesec.core.Command;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Copyright (c) 8-7-17, MineSec. All rights reserved.
  */
@@ -22,4 +25,12 @@ public class Commands {
             new TapeCommand()
     };
 
+    public static final Map<String, Command<?>> ALL_MAPPED;
+
+    static {
+        ALL_MAPPED = new HashMap<>();
+        for (Command<?> command : ALL) {
+            ALL_MAPPED.put(command.name(), command);
+        }
+    }
 }

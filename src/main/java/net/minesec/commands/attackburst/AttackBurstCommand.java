@@ -9,7 +9,8 @@ import java.io.IOException;
  */
 public class AttackBurstCommand extends Command<AttackBurstCommand.Args> {
 
-    public class Args{}
+    public static class Args {
+    }
 
     @Override
     public String name() {
@@ -17,7 +18,7 @@ public class AttackBurstCommand extends Command<AttackBurstCommand.Args> {
     }
 
     @Override
-    public Args argsDefault() {
+    public Args defaults() {
         return new Args();
     }
 

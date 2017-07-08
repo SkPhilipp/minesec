@@ -9,7 +9,8 @@ import java.io.IOException;
  */
 public class DetectVulnsCommand extends Command<DetectVulnsCommand.Args> {
 
-    public class Args{}
+    public static class Args {
+    }
 
     @Override
     public String name() {
@@ -17,7 +18,7 @@ public class DetectVulnsCommand extends Command<DetectVulnsCommand.Args> {
     }
 
     @Override
-    public Args argsDefault() {
+    public Args defaults() {
         return new Args();
     }
 

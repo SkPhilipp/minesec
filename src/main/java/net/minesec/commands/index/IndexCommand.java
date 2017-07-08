@@ -11,9 +11,10 @@ import java.util.function.Consumer;
  */
 public class IndexCommand extends Command<IndexCommand.Args> {
 
-    public class Args{}
+    public static class Args {
+    }
 
-    private BugBountyIndexer bugBountyIndexer;
+    private final BugBountyIndexer bugBountyIndexer;
 
     public IndexCommand() {
         this.bugBountyIndexer = new BugBountyIndexer();
@@ -25,13 +26,13 @@ public class IndexCommand extends Command<IndexCommand.Args> {
     }
 
     @Override
-    public Args argsDefault() {
+    public Args defaults() {
         return new Args();
     }
 
     @Override
     public void execute(Args args) throws IOException {
-        try(JsonGenerator generator = this.openGenerator()) {
+        try (JsonGenerator generator = this.openGenerator()) {
             generator.writeStartArray();
             Consumer<BugBounty> bugBountyConsumer = bounty -> {
                 try {
@@ -40,10 +41,10 @@ public class IndexCommand extends Command<IndexCommand.Args> {
                     exit(e);
                 }
             };
-            bugBountyIndexer.indexBugcrowdCurated(bugBountyConsumer);
-            bugBountyIndexer.indexBugcrowdPrograms(bugBountyConsumer);
-            bugBountyIndexer.indexVulnerabilityLabCurated(bugBountyConsumer);
-            bugBountyIndexer.indexHackeroneCurated(bugBountyConsumer);
+            this.bugBountyIndexer.indexBugcrowdCurated(bugBountyConsumer);
+            this.bugBountyIndexer.indexBugcrowdPrograms(bugBountyConsumer);
+            this.bugBountyIndexer.indexVulnerabilityLabCurated(bugBountyConsumer);
+            this.bugBountyIndexer.indexHackeroneCurated(bugBountyConsumer);
             generator.writeEndArray();
         }
     }
