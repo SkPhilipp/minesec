@@ -6,7 +6,7 @@ import net.minesec.commands.detecttech.DetectTechCommand;
 import net.minesec.commands.detectvulns.DetectVulnsCommand;
 import net.minesec.commands.index.IndexCommand;
 import net.minesec.commands.tape.TapeCommand;
-import net.minesec.core.Command;
+import net.minesec.commands.core.Command;
 
 import java.util.HashMap;
 import java.util.Map;

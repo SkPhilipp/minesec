@@ -2,7 +2,9 @@ group 'net.minesec'
 version 'SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'application'
 
+mainClassName = 'net.minesec.MineSec'
 sourceCompatibility = 1.8
 
 repositories {
@@ -16,4 +18,10 @@ dependencies {
     compile 'org.jsoup:jsoup:1.10.3'
     compile 'com.beust:jcommander:1.72'
     testCompile 'junit:junit:4.12'
+}
+
+run {
+    if (project.hasProperty('args')) {
+        args project.args.split('\\s+')
+    }
 }

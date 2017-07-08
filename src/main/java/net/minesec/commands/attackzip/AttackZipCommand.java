@@ -1,6 +1,6 @@
 package net.minesec.commands.attackzip;
 
-import net.minesec.core.Command;
+import net.minesec.commands.core.Command;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ public class AttackZipCommand extends Command<AttackZipCommand.Args> {
 
     @Override
     public String name() {
-        return "attack:zip";
+        return "attack-zip";
     }
 
     @Override

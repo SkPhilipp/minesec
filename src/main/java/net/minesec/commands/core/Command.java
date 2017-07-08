@@ -1,4 +1,4 @@
-package net.minesec.core;
+package net.minesec.commands.core;
 
 import com.beust.jcommander.JCommander;
 import com.fasterxml.jackson.core.JsonEncoding;
@@ -10,7 +10,6 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Arrays;
 
 /**
  * Copyright (c) 29/06/2017, MineSec. All rights reserved.
@@ -40,12 +39,11 @@ public abstract class Command<T> {
     }
 
     public void execute(String[] args) throws IOException {
-        String[] choiceArgs = Arrays.copyOfRange(args, 1, args.length);
         T commandArgs = this.defaults();
         JCommander.newBuilder()
                 .addObject(commandArgs)
                 .build()
-                .parse(choiceArgs);
+                .parse(args);
         this.execute(commandArgs);
     }
 

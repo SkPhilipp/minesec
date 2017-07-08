@@ -1,6 +1,6 @@
 package net.minesec.commands.detecttech;
 
-import net.minesec.core.Command;
+import net.minesec.commands.core.Command;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ public class DetectTechCommand extends Command<DetectTechCommand.Args> {
 
     @Override
     public String name() {
-        return "detect:tech";
+        return "detect-tech";
     }
 
     @Override

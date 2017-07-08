@@ -1,4 +1,4 @@
-package net.minesec.core;
+package net.minesec.commands.core;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.hamcrest.CoreMatchers;

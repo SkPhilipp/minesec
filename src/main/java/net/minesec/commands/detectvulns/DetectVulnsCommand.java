@@ -1,6 +1,6 @@
 package net.minesec.commands.detectvulns;
 
-import net.minesec.core.Command;
+import net.minesec.commands.core.Command;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ public class DetectVulnsCommand extends Command<DetectVulnsCommand.Args> {
 
     @Override
     public String name() {
-        return "attack:burst";
+        return "detect-vulns";
     }
 
     @Override

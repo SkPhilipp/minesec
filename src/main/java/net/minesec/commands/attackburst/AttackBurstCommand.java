@@ -1,6 +1,6 @@
 package net.minesec.commands.attackburst;
 
-import net.minesec.core.Command;
+import net.minesec.commands.core.Command;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ public class AttackBurstCommand extends Command<AttackBurstCommand.Args> {
 
     @Override
     public String name() {
-        return "attack:burst";
+        return "attack-burst";
     }
 
     @Override
