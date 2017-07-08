@@ -25,16 +25,11 @@ public class TapeCommand extends Command<TapeCommand.Args> {
 
     @Override
     public void execute(Context context, Args args) throws IOException {
+        // TODO: start [target:none] [port:8888] [out-pattern:${M_HOME}/${target}/tape-${now}.zip]
+        //       begins tape daemon on ${port} which writes proxied traffic to an archive file
+        //       prints "tape-port<tab>out"
+        // TODO: stop [target:none] [port:8888]
+        //       stops all tape daemons active for ${target} or on ${port}
     }
-    //# m tape start [target:none]
-    //#              [port:8888]
-    //#              [out-pattern:${M_HOME}/${target}/tape-${now}.zip]
-    //#     begins tape daemon on ${port} which writes proxied traffic to an archive file
-    //#     prints "tape-port<tab>out"
-    //#
-    //
-    //# m tape stop [target:none]
-    //#             [port:8888]
-    //#     stops all tape daemons active for ${target} or on ${port}
 
 }

@@ -20,6 +20,9 @@ public class Context {
     private final InputStream in;
     private final OutputStream out;
 
+    // TODO: Allow Context Args-parse
+    // TODO: System.in could be a read file stream
+    // TODO: System.out could be a write file stream
     public Context() {
         this(new YAMLFactory(), System.in, System.out);
     }

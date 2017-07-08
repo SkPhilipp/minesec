@@ -25,9 +25,8 @@ public class AttackBurstCommand extends Command<AttackBurstCommand.Args> {
 
     @Override
     public void execute(Context context, Args args) throws IOException {
+        // TODO: fire multiple requests with the same key, see what happens
+        //       for example: send 10 requests to cash in the same gift card
     }
-
-    // fire multiple requests with the same key, see what happens
-    // for example: send 10 requests to cash in the same gift card
 
 }

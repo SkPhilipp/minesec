@@ -25,8 +25,7 @@ public class AttackZipCommand extends Command<AttackZipCommand.Args> {
 
     @Override
     public void execute(Context context, Args args) throws IOException {
+        // TODO: gzip bomb ,,, stuff from the tor internet-archive hoster
     }
-
-    // gzip bomb ,,, stuff from the tor internet-archive hoster
 
 }
