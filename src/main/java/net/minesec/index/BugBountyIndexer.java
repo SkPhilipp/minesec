@@ -65,12 +65,8 @@ class BugBountyIndexer {
         });
     }
 
-    private URI indexBugcrowdProgramsUrl(int page) {
-        return URI.create("https://bugcrowd.com/programs?page=" + page);
-    }
-
     void indexBugcrowdPrograms(Consumer<BugBounty> sink) throws IOException {
-        Element page = fetch(indexBugcrowdProgramsUrl(1));
+        Element page = fetch(URI.create("https://bugcrowd.com/programs?page=1"));
         while (!page.select(".next").isEmpty()) {
             page.select("ul li.bounty").forEach(element -> {
                 String reward = element.select(".stat").text();
