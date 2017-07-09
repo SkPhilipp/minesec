@@ -1,4 +1,4 @@
-package net.minesec.commands.core;
+package net.minesec.commands.shared;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

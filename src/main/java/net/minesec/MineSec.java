@@ -1,9 +1,9 @@
 package net.minesec;
 
 import com.beust.jcommander.JCommander;
-import net.minesec.commands.core.Command;
-import net.minesec.commands.core.Context;
-import net.minesec.commands.core.ContextArgs;
+import net.minesec.commands.shared.Command;
+import net.minesec.commands.shared.Context;
+import net.minesec.commands.shared.args.ContextArgs;
 
 import java.io.IOException;
 import java.util.Arrays;

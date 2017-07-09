@@ -1,4 +1,4 @@
-package net.minesec.commands.core;
+package net.minesec.commands.shared.args;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;

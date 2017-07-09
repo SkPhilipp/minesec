@@ -1,8 +1,8 @@
 package net.minesec.commands.index;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import net.minesec.commands.core.Command;
-import net.minesec.commands.core.Context;
+import net.minesec.commands.shared.Command;
+import net.minesec.commands.shared.Context;
 
 import java.io.IOException;
 import java.util.function.Consumer;

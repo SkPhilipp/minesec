@@ -1,4 +1,4 @@
-package net.minesec.commands.core;
+package net.minesec.commands.shared;
 
 import java.io.IOException;
 import java.util.function.Consumer;

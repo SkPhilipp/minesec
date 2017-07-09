@@ -1,7 +1,7 @@
 package net.minesec.commands.tape;
 
-import net.minesec.commands.core.Command;
-import net.minesec.commands.core.Context;
+import net.minesec.commands.shared.Command;
+import net.minesec.commands.shared.Context;
 
 import java.io.IOException;
 
