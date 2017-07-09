@@ -33,13 +33,14 @@ public class IndexCommand extends Command<IndexCommand.Args> {
 
     @Override
     public void execute(Context context, Args args) throws IOException {
-        try (JsonGenerator generator = context.createGenerator()) {
+        try (JsonGenerator generator = context.createOutGenerator()) {
             generator.writeStartArray();
             Consumer<BugBounty> bugBountyConsumer = bounty -> {
                 try {
                     generator.writeObject(bounty);
                 } catch (IOException e) {
-                    context.exit(e);
+                    e.printStackTrace();
+                    System.exit(1);
                 }
             };
             this.bugBountyIndexer.indexBugcrowdCurated(bugBountyConsumer);

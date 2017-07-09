@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,31 +14,28 @@ import java.io.OutputStream;
  */
 public class Context {
 
-    private final JsonFactory factory;
-    private final ObjectMapper mapper;
     private final InputStream in;
     private final OutputStream out;
+    private final JsonFactory inJsonFactory;
+    private final JsonFactory outJsonFactory;
 
-    // TODO: Allow Context Args-parse
-    // TODO: System.in could be a read file stream
-    // TODO: System.out could be a write file stream
-    public Context() {
-        this(new YAMLFactory(), System.in, System.out);
-    }
-
-    public Context(JsonFactory factory, InputStream in, OutputStream out) {
-        this.factory = factory;
+    public Context(JsonFactory inJsonFactory, JsonFactory outJsonFactory, InputStream in, OutputStream out) {
+        this.inJsonFactory = inJsonFactory;
+        this.outJsonFactory = outJsonFactory;
         this.in = in;
         this.out = out;
-        this.mapper = new ObjectMapper(factory);
     }
 
-    public JsonGenerator createGenerator() throws IOException {
-        return this.factory.createGenerator(this.out, JsonEncoding.UTF8);
+    public JsonGenerator createOutGenerator() throws IOException {
+        return this.outJsonFactory.createGenerator(this.out, JsonEncoding.UTF8);
     }
 
-    public ObjectMapper getMapper() throws IOException {
-        return this.mapper;
+    public ObjectMapper getOutMapper() throws IOException {
+        return new ObjectMapper(this.outJsonFactory);
+    }
+
+    public ObjectMapper getInMapper() throws IOException {
+        return new ObjectMapper(this.inJsonFactory);
     }
 
     public InputStream getIn() {
@@ -48,16 +44,6 @@ public class Context {
 
     public OutputStream getOut() {
         return this.out;
-    }
-
-    /**
-     * Prints the exception's stacktrace and exits the program.
-     *
-     * @param e cause of exit
-     */
-    public void exit(Exception e) {
-        e.printStackTrace();
-        System.exit(1);
     }
 
 }

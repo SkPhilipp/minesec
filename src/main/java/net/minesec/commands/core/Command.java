@@ -1,8 +1,7 @@
 package net.minesec.commands.core;
 
-import com.beust.jcommander.JCommander;
-
 import java.io.IOException;
+import java.util.function.Consumer;
 
 /**
  * Copyright (c) 29/06/2017, MineSec. All rights reserved.
@@ -11,12 +10,9 @@ import java.io.IOException;
  */
 public abstract class Command<T> {
 
-    public void execute(Context context, String[] args) throws IOException {
+    public void execute(Context context, Consumer<T> argsModifier) throws IOException {
         T commandArgs = this.defaults();
-        JCommander.newBuilder()
-                .addObject(commandArgs)
-                .build()
-                .parse(args);
+        argsModifier.accept(commandArgs);
         this.execute(context, commandArgs);
     }
 
