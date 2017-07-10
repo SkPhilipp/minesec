@@ -13,3 +13,13 @@
     1) [ ] Find Vulnerabilities for Techs
     2) [ ] Handpick interesting API paths for manual exploitation
     3) [ ] Apply Common Attacks on handpicked endpoints (i.e. Shotgun & Bomb)
+    
+    sudo apt-get install curl
+    PLATFORM=linux64
+    VERSION=$(curl http://chromedriver.storage.googleapis.com/LATEST_RELEASE)
+    curl http://chromedriver.storage.googleapis.com/$VERSION/chromedriver_$PLATFORM.zip > chromedriver.zip
+    unzip chromedriver.zip
+    sudo mkdir /opt/chromedriver
+    sudo mv chromedriver /opt/chromedriver/chromedriver
+    chmod +x /opt/chromedriver/chromedriver
+    rm chromedriver.zip
