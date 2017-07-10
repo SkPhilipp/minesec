@@ -8,23 +8,10 @@ import java.io.IOException;
 /**
  * Copyright (c) 29/06/2017, MineSec. All rights reserved.
  */
-public class DetectVulnsCommand extends Command<DetectVulnsCommand.Args> {
-
-    public static class Args {
-    }
+public class DetectVulnsCommand implements Command {
 
     @Override
-    public String name() {
-        return "detect-vulns";
-    }
-
-    @Override
-    public Args defaults() {
-        return new Args();
-    }
-
-    @Override
-    public void execute(Context context, Args args) throws IOException {
+    public void execute(Context context, String... args) throws IOException {
     }
     // TODO: vulns (in=${M_HOME}/${target}/tech.yml, out=${M_HOME}/${target}/vulns.yml)
     //       for all ${targets}, opens each ${in} tech.yml-file for reading

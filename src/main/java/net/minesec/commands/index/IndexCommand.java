@@ -10,30 +10,12 @@ import java.util.function.Consumer;
 /**
  * Copyright (c) 30/06/2017, MineSec. All rights reserved.
  */
-public class IndexCommand extends Command<IndexCommand.Args> {
-
-    public static class Args {
-    }
-
-    private final BugBountyIndexer bugBountyIndexer;
-
-    public IndexCommand() {
-        this.bugBountyIndexer = new BugBountyIndexer();
-    }
+public class IndexCommand implements Command {
 
     @Override
-    public String name() {
-        return "index";
-    }
-
-    @Override
-    public Args defaults() {
-        return new Args();
-    }
-
-    @Override
-    public void execute(Context context, Args args) throws IOException {
-        try (JsonGenerator generator = context.createOutGenerator()) {
+    public void execute(Context context, String... args) throws IOException {
+        BugBountyIndexer bugBountyIndexer = new BugBountyIndexer();
+        try (JsonGenerator generator = context.createGenerator()) {
             generator.writeStartArray();
             Consumer<BugBounty> bugBountyConsumer = bounty -> {
                 try {
@@ -43,10 +25,10 @@ public class IndexCommand extends Command<IndexCommand.Args> {
                     System.exit(1);
                 }
             };
-            this.bugBountyIndexer.indexBugcrowdCurated(bugBountyConsumer);
-            this.bugBountyIndexer.indexBugcrowdPrograms(bugBountyConsumer);
-            this.bugBountyIndexer.indexVulnerabilityLabCurated(bugBountyConsumer);
-            this.bugBountyIndexer.indexHackeroneCurated(bugBountyConsumer);
+            bugBountyIndexer.indexBugcrowdCurated(bugBountyConsumer);
+            bugBountyIndexer.indexBugcrowdPrograms(bugBountyConsumer);
+            bugBountyIndexer.indexVulnerabilityLabCurated(bugBountyConsumer);
+            bugBountyIndexer.indexHackeroneCurated(bugBountyConsumer);
             generator.writeEndArray();
         }
     }

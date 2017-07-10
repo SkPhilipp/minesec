@@ -8,23 +8,10 @@ import java.io.IOException;
 /**
  * Copyright (c) 29/06/2017, MineSec. All rights reserved.
  */
-public class TapeCommand extends Command<TapeCommand.Args> {
-
-    public static class Args {
-    }
+public class TapeCommand implements Command {
 
     @Override
-    public String name() {
-        return "tape";
-    }
-
-    @Override
-    public Args defaults() {
-        return new Args();
-    }
-
-    @Override
-    public void execute(Context context, Args args) throws IOException {
+    public void execute(Context context, String... args) throws IOException {
         // TODO: start [target:none] [port:8888] [out-pattern:${M_HOME}/${target}/tape-${now}.zip]
         //       begins tape daemon on ${port} which writes proxied traffic to an archive file
         //       prints "tape-port<tab>out"
