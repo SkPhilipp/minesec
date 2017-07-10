@@ -1,6 +1,5 @@
 package net.minesec.commands;
 
-import net.minesec.commands.attackburst.AttackBurstCommand;
 import net.minesec.commands.attackzip.AttackZipCommand;
 import net.minesec.commands.detecttech.DetectTechCommand;
 import net.minesec.commands.detectvulns.DetectVulnsCommand;
@@ -17,7 +16,6 @@ import java.util.Map;
 public class Commands {
 
     public static final Command<?>[] ALL = new Command[]{
-            new AttackBurstCommand(),
             new AttackZipCommand(),
             new DetectTechCommand(),
             new DetectVulnsCommand(),
