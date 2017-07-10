@@ -3,10 +3,10 @@ package net.minesec;
 import net.minesec.commands.attackzip.AttackZipCommand;
 import net.minesec.commands.detecttech.DetectTechCommand;
 import net.minesec.commands.detectvulns.DetectVulnsCommand;
+import net.minesec.commands.explore.ExploreCommand;
 import net.minesec.commands.index.IndexCommand;
 import net.minesec.commands.shared.Command;
 import net.minesec.commands.shared.Context;
-import net.minesec.commands.tape.TapeCommand;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -27,7 +27,7 @@ public class MineSec {
         ALL.put("attack-zip", new AttackZipCommand());
         ALL.put("detect-tech", new DetectTechCommand());
         ALL.put("detect-vulns", new DetectVulnsCommand());
-        ALL.put("tape", new TapeCommand());
+        ALL.put("explore", new ExploreCommand());
     }
 
     public static void main(String[] args) throws IOException {
