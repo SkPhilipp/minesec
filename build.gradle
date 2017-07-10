@@ -15,6 +15,7 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.16.16'
     compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.3.0'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.2.3'
+    compile 'org.seleniumhq.selenium:selenium-java:3.4.0'
     compile 'org.jsoup:jsoup:1.10.3'
     testCompile 'junit:junit:4.12'
 }

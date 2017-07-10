@@ -23,3 +23,8 @@
     sudo mv chromedriver /opt/chromedriver/chromedriver
     chmod +x /opt/chromedriver/chromedriver
     rm chromedriver.zip
+
+/opt/chromedriver/chromedriver
+
+WebDriver driver = new RemoteWebDriver("http://127.0.0.1:9515", DesiredCapabilities.chrome());
+driver.get("http://www.google.com");
