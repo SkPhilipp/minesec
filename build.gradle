@@ -16,7 +16,9 @@ dependencies {
     compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.3.0'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.2.3'
     compile 'org.seleniumhq.selenium:selenium-java:3.4.0'
+    compile 'org.littleshoot:littleproxy:1.1.2'
     compile 'org.jsoup:jsoup:1.10.3'
+    compile 'com.github.ganskef:littleproxy-mitm:1.1.0'
     testCompile 'junit:junit:4.12'
 }
 
