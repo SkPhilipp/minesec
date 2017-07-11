@@ -24,13 +24,7 @@ sudo mv chromedriver /opt/chromedriver/chromedriver
 chmod +x /opt/chromedriver/chromedriver
 rm chromedriver.zip
 
-HttpProxyServer server =
-        DefaultHttpProxyServer.bootstrap()
-                .withManInTheMiddle(new CertificateSniffingMitmManager())
-                .withPort(8080)
-                .start();
-System.out.println("shields up");
-Thread.sleep(600000);
-// this created littleproxy-mitm.pem & .p12 files in root of project:
-// sudo apt-get install libnss3-tools
-// certutil -d sql:$HOME/.pki/nssdb -A -t TC -n "MineSec" -i ./littleproxy-mitm.pem
+sudo apt-get install libnss3-tools
+certutil -d sql:$HOME/.pki/nssdb -A -t TC -n "MineSec" -i ./littleproxy-mitm.pem
+
+gradle run -Pargs="explore https://4chan.org"

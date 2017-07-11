@@ -61,12 +61,16 @@ public class ExploreCommand implements Command {
         capabilities.setCapability(CAPABILITY, chromeOptions);
     }
 
+    /**
+     * @param context Command context
+     * @param args    [0] = Root target page
+     */
     @Override
     public void execute(Context context, String... args) throws IOException {
         try {
             HttpProxyServer httpProxyServer = this.createProxy();
             WebDriver webDriver = this.createWebDriver(httpProxyServer);
-            webDriver.get("https://4chan.org");
+            webDriver.get(args[0]);
             Thread.sleep(5000);
             webDriver.quit();
         } catch (RootCertificateException e) {
