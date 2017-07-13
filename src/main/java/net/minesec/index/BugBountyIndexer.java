@@ -1,4 +1,4 @@
-package net.minesec.commands.index;
+package net.minesec.index;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.JsonNode;

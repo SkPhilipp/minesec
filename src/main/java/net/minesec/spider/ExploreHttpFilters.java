@@ -1,4 +1,4 @@
-package net.minesec.commands.explore;
+package net.minesec.spider;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.*;

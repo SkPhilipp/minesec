@@ -1,7 +1,5 @@
-package net.minesec.commands.explore;
+package net.minesec.spider;
 
-import net.minesec.commands.shared.Command;
-import net.minesec.commands.shared.Context;
 import org.littleshoot.proxy.HttpProxyServer;
 import org.littleshoot.proxy.impl.DefaultHttpProxyServer;
 import org.littleshoot.proxy.mitm.CertificateSniffingMitmManager;
@@ -14,7 +12,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import java.io.IOException;
 import java.net.InetSocketAddress;
 
 import static org.openqa.selenium.chrome.ChromeOptions.CAPABILITY;
@@ -22,7 +19,7 @@ import static org.openqa.selenium.chrome.ChromeOptions.CAPABILITY;
 /**
  * Copyright (c) 10-7-17, MineSec. All rights reserved.
  */
-public class ExploreCommand implements Command {
+public class Main {
 
     private static final String CAPABILITY_HEADLESS = "headless";
 
@@ -61,22 +58,13 @@ public class ExploreCommand implements Command {
         capabilities.setCapability(CAPABILITY, chromeOptions);
     }
 
-    /**
-     * @param context Command context
-     * @param args    [0] = Root target page
-     */
-    @Override
-    public void execute(Context context, String... args) throws IOException {
-        try {
-            HttpProxyServer httpProxyServer = this.createProxy();
-            WebDriver webDriver = this.createWebDriver(httpProxyServer);
-            webDriver.get(args[0]);
-            Thread.sleep(5000);
-            webDriver.quit();
-        } catch (RootCertificateException e) {
-            throw new IllegalStateException(e);
-        } catch (InterruptedException e) {
-            throw new IllegalStateException("Wait interrupted.", e);
-        }
+    public static void main(String[] args) throws InterruptedException, RootCertificateException {
+        Main main = new Main();
+        HttpProxyServer httpProxyServer = main.createProxy();
+        WebDriver webDriver = main.createWebDriver(httpProxyServer);
+        webDriver.get(args[0]);
+        Thread.sleep(5000);
+        System.out.println(webDriver.getTitle());
+        webDriver.quit();
     }
 }

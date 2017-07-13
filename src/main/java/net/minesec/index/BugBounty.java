@@ -1,4 +1,4 @@
-package net.minesec.commands.index;
+package net.minesec.index;
 
 import lombok.Builder;
 import lombok.Data;

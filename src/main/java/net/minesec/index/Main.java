@@ -1,8 +1,10 @@
-package net.minesec.commands.index;
+package net.minesec.index;
 
+import com.fasterxml.jackson.core.JsonEncoding;
+import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
-import net.minesec.commands.shared.Command;
-import net.minesec.commands.shared.Context;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import java.io.IOException;
 import java.util.function.Consumer;
@@ -10,12 +12,15 @@ import java.util.function.Consumer;
 /**
  * Copyright (c) 30/06/2017, MineSec. All rights reserved.
  */
-public class IndexCommand implements Command {
+public class Main {
 
-    @Override
-    public void execute(Context context, String... args) throws IOException {
+    private static final JsonFactory YAML = new YAMLFactory();
+    private static final ObjectMapper YAML_MAPPER = new ObjectMapper(YAML);
+
+    public static void main(String[] args) {
         BugBountyIndexer bugBountyIndexer = new BugBountyIndexer();
-        try (JsonGenerator generator = context.createGenerator()) {
+        try (JsonGenerator generator = YAML.createGenerator(System.out, JsonEncoding.UTF8)) {
+            generator.setCodec(YAML_MAPPER);
             generator.writeStartArray();
             Consumer<BugBounty> bugBountyConsumer = bounty -> {
                 try {
@@ -30,6 +35,8 @@ public class IndexCommand implements Command {
             bugBountyIndexer.indexVulnerabilityLabCurated(bugBountyConsumer);
             bugBountyIndexer.indexHackeroneCurated(bugBountyConsumer);
             generator.writeEndArray();
+        } catch (IOException e) {
+            e.printStackTrace(System.err);
         }
     }
 

@@ -4,7 +4,6 @@ version 'SNAPSHOT'
 apply plugin: 'java'
 apply plugin: 'application'
 
-mainClassName = 'net.minesec.MineSec'
 sourceCompatibility = 1.8
 
 repositories {
@@ -23,7 +22,11 @@ dependencies {
 }
 
 run {
-    if (project.hasProperty('args')) {
-        args project.args.split('\\s+')
+    if (project.hasProperty('index')) {
+        mainClassName = 'net.minesec.index.Main'
+    }
+    if (project.hasProperty('crawl')) {
+        mainClassName = 'net.minesec.spider.Main'
+        args project.crawl
     }
 }

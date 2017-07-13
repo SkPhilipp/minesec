@@ -1,3 +1,6 @@
+gradle run -Pcrawl=https://4chan.org
+gradle run -Pindex
+
 installation:
 
     # chromedriver
