@@ -9,7 +9,7 @@ import java.nio.charset.Charset;
 /**
  * Copyright (c) 11-7-17, MineSec. All rights reserved.
  */
-public class ExploreHttpFilters extends HttpFiltersAdapter {
+class ExploreHttpFilters extends HttpFiltersAdapter {
 
     public static final Charset UTF_8 = Charset.forName("UTF-8");
 

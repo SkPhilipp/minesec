@@ -8,7 +8,7 @@ import lombok.Data;
  */
 @Data
 @Builder
-public class BugBounty {
+class BugBounty {
     private String source;
     private String page;
     private boolean rewardMonetary;

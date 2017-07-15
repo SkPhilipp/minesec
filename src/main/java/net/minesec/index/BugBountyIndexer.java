@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 /**
  * Copyright (c) 29/06/2017, MineSec. All rights reserved.
  */
-public class BugBountyIndexer {
+class BugBountyIndexer {
 
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper(new JsonFactory());
 
