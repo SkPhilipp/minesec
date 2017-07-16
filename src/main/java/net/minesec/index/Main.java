@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 /**
  * Copyright (c) 30/06/2017, MineSec. All rights reserved.
  */
-public class Main {
+class Main {
 
     private static final JsonFactory YAML = new YAMLFactory();
     private static final ObjectMapper YAML_MAPPER = new ObjectMapper(YAML);

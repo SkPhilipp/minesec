@@ -10,14 +10,14 @@ import org.littleshoot.proxy.HttpFiltersSource;
  * <p>
  * Implements 100 MB per-request buffers
  */
-class ExploreHttpFiltersSource implements HttpFiltersSource {
+class RuleCallingHttpFiltersSource implements HttpFiltersSource {
 
     private static final int MAXIMUM_BUFFER_SIZE_IN_BYTES_REQUEST = 1024 * 1024 * 100;
     private static final int MAXIMUM_BUFFER_SIZE_IN_BYTES_RESPONSE = 1024 * 1024 * 100;
 
     @Override
     public HttpFilters filterRequest(HttpRequest originalRequest, ChannelHandlerContext ctx) {
-        return new ExploreHttpFilters(originalRequest, ctx);
+        return new RuleCallingHttpFilter(originalRequest, ctx);
     }
 
     @Override

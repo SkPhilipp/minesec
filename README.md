@@ -78,3 +78,12 @@ exploring from a root url and all coupled functionalities:
     - responses which contain part of the request
     - all other responses which result in unique pages
     these can then be used as input to active rules, and for hand-picked attacks.
+
+rules:
+
+    Phone Verifier
+    Email Verifier
+    Image resource exhaust rule
+    Json API fuzzer
+    Json API reconstructor
+    
