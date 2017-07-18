@@ -81,17 +81,11 @@ exploring from a root url and all coupled functionalities:
 
 rules:
 
-    Phone Verifier
-    Email Verifier
-    Image resource exhaust rule
-    Json API fuzzer
-    Json API reconstructor
-
-    url discovery
+    url discovery:
     url event --> crawlers     --> browser pool --> traffic event
     url event --> active rules ^
 
-    proxy
+    proxy:
     request event --> passive rules
     request event --> active rules
 
@@ -106,3 +100,16 @@ rules:
     active rules:
     - form fuzzer
     - json api fuzzer
+    - image size limit checker
+    - authorizing a browser (& blocking logout calls?, verifying email, verifying phone)
+
+could use an event-based system design here?
+
+recognized events:
+
+    - identified-root-url(context, url)
+    - identified-technology(context, name, version)
+    - identified-vulnerability(context, identifier)
+    - identified-weakness(context, identifier)
+    - request-begin(context, authority, request)
+    - request-complete(context, authority, request, response)
