@@ -86,4 +86,23 @@ rules:
     Image resource exhaust rule
     Json API fuzzer
     Json API reconstructor
-    
+
+    url discovery
+    url event --> crawlers     --> browser pool --> traffic event
+    url event --> active rules ^
+
+    proxy
+    request event --> passive rules
+    request event --> active rules
+
+    passive rules:
+    - pathfinders (find paths in forms, json, request event urls, comments, [href], [src], ...)
+    - fingerprinters (mark request as using a certain technology (ie JSESSIONID cookie -> mark Java)
+    - weaknesses (ie JSONP / non-padded JSON to avoid CORS, ...)
+    - graph builder (ie Neo4j, Orientdb)
+    - duplicate detection (; don't register duplicate pages)
+    - i/o registry (find matches between earlier requests and the response)
+
+    active rules:
+    - form fuzzer
+    - json api fuzzer
