@@ -18,7 +18,6 @@ class Main {
     private static final ObjectMapper YAML_MAPPER = new ObjectMapper(YAML);
 
     public static void main(String[] args) {
-        BugBountyIndexer bugBountyIndexer = new BugBountyIndexer();
         try (JsonGenerator generator = YAML.createGenerator(System.out, JsonEncoding.UTF8)) {
             generator.setCodec(YAML_MAPPER);
             generator.writeStartArray();
@@ -30,10 +29,10 @@ class Main {
                     System.exit(1);
                 }
             };
-            bugBountyIndexer.indexBugcrowdCurated(bugBountyConsumer);
-            bugBountyIndexer.indexBugcrowdPrograms(bugBountyConsumer);
-            bugBountyIndexer.indexVulnerabilityLabCurated(bugBountyConsumer);
-            bugBountyIndexer.indexHackeroneCurated(bugBountyConsumer);
+            BugBountyIndexer.indexBugcrowdCurated(bugBountyConsumer);
+            BugBountyIndexer.indexBugcrowdPrograms(bugBountyConsumer);
+            BugBountyIndexer.indexVulnerabilityLabCurated(bugBountyConsumer);
+            BugBountyIndexer.indexHackeroneCurated(bugBountyConsumer);
             generator.writeEndArray();
         } catch (IOException e) {
             e.printStackTrace(System.err);

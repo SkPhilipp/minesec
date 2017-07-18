@@ -88,13 +88,13 @@ class WebDriverPool {
         });
     }
 
-    private void requireCapabilityChromeHeadless(DesiredCapabilities capabilities) {
+    private static void requireCapabilityChromeHeadless(DesiredCapabilities capabilities) {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments(CAPABILITY_HEADLESS);
         capabilities.setCapability(CAPABILITY, chromeOptions);
     }
 
-    private void requireCapabilityProxy(String httpProxy, DesiredCapabilities capabilities) {
+    private static void requireCapabilityProxy(String httpProxy, DesiredCapabilities capabilities) {
         Proxy proxy = new Proxy();
         proxy.setProxyType(Proxy.ProxyType.MANUAL);
         proxy.setSslProxy(httpProxy);

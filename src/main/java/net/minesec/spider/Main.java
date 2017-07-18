@@ -15,6 +15,8 @@ import java.net.InetSocketAddress;
  */
 class Main {
 
+    private static final int SESSIONS_LIMIT = 10;
+
     public static void main(String[] args) throws InterruptedException, RootCertificateException {
         RuleCallingHttpFiltersSource filtersSource = new RuleCallingHttpFiltersSource();
         HttpProxyServer httpProxyServer = DefaultHttpProxyServer.bootstrap()
@@ -26,7 +28,7 @@ class Main {
                 .start();
         InetSocketAddress address = httpProxyServer.getListenAddress();
         String proxyAddress = String.format("%s:%d", address.getHostName(), address.getPort());
-        WebDriverPool webDriverPool = new WebDriverPool(10, proxyAddress);
+        WebDriverPool webDriverPool = new WebDriverPool(SESSIONS_LIMIT, proxyAddress);
         filtersSource.setTaskConsumer(webDriverPool::queue);
         try {
             webDriverPool.queue(webDriver -> {

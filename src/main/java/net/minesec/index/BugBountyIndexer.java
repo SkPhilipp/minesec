@@ -19,7 +19,7 @@ class BugBountyIndexer {
 
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper(new JsonFactory());
 
-    private Map<String, String> headers(URI uri) {
+    private static Map<String, String> headers(URI uri) {
         String domain = uri.getHost();
         Map<String, String> headers = new HashMap<>();
         headers.put("DNT", "1");
@@ -33,25 +33,25 @@ class BugBountyIndexer {
         return headers;
     }
 
-    private Map<String, String> jsonHeaders(URI uri) {
+    private static Map<String, String> jsonHeaders(URI uri) {
         Map<String, String> headers = headers(uri);
         headers.put("Accept", "application/json, text/javascript, */*; q=0.01");
         headers.put("X-Requested-With", "XMLHttpRequest");
         return headers;
     }
 
-    private Element fetch(URI uri) throws IOException {
+    private static Element fetch(URI uri) throws IOException {
         Map<String, String> headers = headers(uri);
         return Jsoup.connect(uri.toString()).headers(headers).get().body();
     }
 
-    private JsonNode fetchJson(URI uri) throws IOException {
+    private static JsonNode fetchJson(URI uri) throws IOException {
         Map<String, String> headers = jsonHeaders(uri);
         byte[] bytes = Jsoup.connect(uri.toString()).headers(headers).ignoreContentType(true).execute().bodyAsBytes();
         return JSON_MAPPER.readTree(bytes);
     }
 
-    void indexBugcrowdCurated(Consumer<BugBounty> sink) throws IOException {
+    static void indexBugcrowdCurated(Consumer<BugBounty> sink) throws IOException {
         Element fetch = fetch(URI.create("https://www.bugcrowd.com/bug-bounty-list/"));
         fetch.select("main table tbody tr").forEach(element -> {
             BugBounty build = BugBounty.builder()
@@ -65,7 +65,7 @@ class BugBountyIndexer {
         });
     }
 
-    void indexBugcrowdPrograms(Consumer<BugBounty> sink) throws IOException {
+    static void indexBugcrowdPrograms(Consumer<BugBounty> sink) throws IOException {
         Element page = fetch(URI.create("https://bugcrowd.com/programs?page=1"));
         while (!page.select(".next").isEmpty()) {
             page.select("ul li.bounty").forEach(element -> {
@@ -84,7 +84,7 @@ class BugBountyIndexer {
         }
     }
 
-    void indexVulnerabilityLabCurated(Consumer<BugBounty> sink) throws IOException {
+    static void indexVulnerabilityLabCurated(Consumer<BugBounty> sink) throws IOException {
         Element fetch = fetch(URI.create("https://www.vulnerability-lab.com/list-of-bug-bounty-programs.php"));
         fetch.select("blockquote table").last().select("tr").forEach(element -> {
             BugBounty build = BugBounty.builder()
@@ -98,11 +98,11 @@ class BugBountyIndexer {
         });
     }
 
-    private URI indexHackeroneCuratedUrl(int page) {
+    private static URI indexHackeroneCuratedUrl(int page) {
         return URI.create("https://hackerone.com/programs/search?query=ibb%3Ano&sort=published_at%3Adescending&page=" + page);
     }
 
-    void indexHackeroneCurated(Consumer<BugBounty> sink) throws IOException {
+    static void indexHackeroneCurated(Consumer<BugBounty> sink) throws IOException {
         JsonNode node = fetchJson(indexHackeroneCuratedUrl(1));
         int batchIndex = 1;
         int batchSize = node.get("limit").asInt();
