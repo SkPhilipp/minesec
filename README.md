@@ -1,7 +1,24 @@
-gradle run -Pcrawl=https://4chan.org
-gradle run -Pindex
 
-installation:
+# TODOs:
+
+## Must have
+
+- Vulnerable test sites
+- Architecture implementation
+
+## Nice to have
+
+- Git bisect integration
+
+## Uncategorized ideas
+
+- Bug bounty indexer should use search engines alongside existing indexes
+- Spider could identify page structure as not to crawl the same type of page more than N times
+- Spider could identify login and registration forms and automatically authorize
+
+# Development
+
+## Installation:
 
     # chromedriver
     sudo apt-get install curl
@@ -18,98 +35,52 @@ installation:
     sudo apt-get install libnss3-tools
     certutil -d sql:$HOME/.pki/nssdb -A -t TC -n "MineSec" -i ./littleproxy-mitm.pem
 
-build-and-run:
+## Utilities
 
-    # example run
-    gradle run -Pargs="explore https://4chan.org"
+    gradle run -Pcrawl=https://4chan.org
+    gradle run -Pindex
 
-indexing bounties:
+# Architecture
 
-    ( or... minesec --run script.js http://hackerone/... )
-    minesec index
+    scanners:
+    - ports
+    - dns
+    - *web*
 
-    bug bounty indexes      -> root urls
-    ( hackerone )
-    ( bugcrowd )
-    ( vulnerability lab )
-    ( search engine patterns )
+     | request
+     v
 
-exploring from a root url and all coupled functionalities:
+    pre-request:
+    - mock responses
+    - deduplication
+    - url blocking
 
-    ( or... minesec [<root-url>...] )
-    minesec explore <root-url>
+    | allowed request
+    v
 
-    loop until fully crawled or timed out:
-    root url pages          -> fullly crawled site
-    ( could identify page structure as not to crawl the same page template multiple times )
-    ( the pages are navigated using a real browser, not by interpreting responses         )
-    ( the browser will proxy all requests, including secure requests                      )
-    ( the proxy saves each request and response to a persistent store                     )
-
-    fn 1: passive rules:
-    much like a form of deep-packet inspection.
-    each request and response will be processed by multiple rules, which can identify
-    aspects of the application. matching is usually done based on an extended regular
-    expression-based systems.
-    ( could identify page structure to find pages which are generated differently,        )
-    ( as to identify different backend technologies, on which to re-apply certain rules   )
-
-    fn 2: active rules:
-    event-triggered(i.e. by passive rules), or always running,
-    active rules do more than listen, and can interact with the target.
-    examples:
-    - submitting a zip-bomb
-    - submitting requests with values which are not normally possible to choose through the UI
-      ( & other generic fuzzing )
-    - submitting a single-use request multiple times in parallel
-      ( for example, redeeming the same gift card many times )
-
-    fn 3: identifying technologies and vulnerabilities through finterprinting:
-    through use of for example wappalyzer, and custom rules, technologies used by the
-    target can be identified, possibly including versions.
-    each technology can then be searched on in public vulnerability databases,
-    generating a set of possible vulnerabilities.
-
-    fn 4: reconstructing the API:
-    through use of passive inspection, the application's API can be reconstructed.
-    for example rules that could match this are:
-    - responses returning JSON, XML, or other data-formats
-      this will include javascript with mainly JSON in it
-    - responses which contain part of the request
-    - all other responses which result in unique pages
-    these can then be used as input to active rules, and for hand-picked attacks.
-
-rules:
-
-    url discovery:
-    url event --> crawlers     --> browser pool --> traffic event
-    url event --> active rules ^
-
-    proxy:
-    request event --> passive rules
-    request event --> active rules
-
-    passive rules:
-    - pathfinders (find paths in forms, json, request event urls, comments, [href], [src], ...)
-    - fingerprinters (mark request as using a certain technology (ie JSESSIONID cookie -> mark Java)
+    proxy
+    
+    | response
+    v
+    
+    active rules, request-bound:
+    - fingerprinting ( wappalyzer, custom rules )
+    - search in public vulnerability databases for found technologies and versions
     - weaknesses (ie JSONP / non-padded JSON to avoid CORS, ...)
-    - graph builder (ie Neo4j, Orientdb)
-    - duplicate detection (; don't register duplicate pages)
-    - i/o registry (find matches between earlier requests and the response)
+    - graph (neo4j, orientdb ; reconstructing APIs automatically)
+    - i/o registry(find matches between earlier requests and the response)
 
-    active rules:
-    - form fuzzer
-    - json api fuzzer
+    | response with tags
+    v
+
+    active rules, request-free:
+    - authorizers
+    - image limit
+    - json api fuzzers
+    - form api fuzzers
+    - pathfinders (js-made requests, json, comments, [src], [href], [action]
+    - submitting a zip-bomb
+    - submitting a single-use request multiple times in parallel ( example; gift cards )
+    - choosing values outside the range allowed through the frontend
     - image size limit checker
     - authorizing a browser (& blocking logout calls?, verifying email, verifying phone)
-
-could use an event-based system design here?
-
-recognized events:
-
-    - identified-root-url(context, url)
-    - identified-technology(context, name, version)
-    - identified-vulnerability(context, identifier)
-    - identified-weakness(context, identifier)
-    - request-begin(context, authority, request)
-    - request-complete(context, authority, request, response)
