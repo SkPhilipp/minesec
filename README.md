@@ -1,4 +1,3 @@
-
 # TODOs:
 
 ## Must have
@@ -15,6 +14,8 @@
 - Bug bounty indexer should use search engines alongside existing indexes
 - Spider could identify page structure as not to crawl the same type of page more than N times
 - Spider could identify login and registration forms and automatically authorize
+- DNS Scanner integrations
+- Port Scanner integrations
 
 # Development
 
@@ -39,48 +40,3 @@
 
     gradle run -Pcrawl=https://4chan.org
     gradle run -Pindex
-
-# Architecture
-
-    scanners:
-    - ports
-    - dns
-    - *web*
-
-     | request
-     v
-
-    pre-request:
-    - mock responses
-    - deduplication
-    - url blocking
-
-    | allowed request
-    v
-
-    proxy
-    
-    | response
-    v
-    
-    active rules, request-bound:
-    - fingerprinting ( wappalyzer, custom rules )
-    - search in public vulnerability databases for found technologies and versions
-    - weaknesses (ie JSONP / non-padded JSON to avoid CORS, ...)
-    - graph (neo4j, orientdb ; reconstructing APIs automatically)
-    - i/o registry(find matches between earlier requests and the response)
-
-    | response with tags
-    v
-
-    active rules, request-free:
-    - authorizers
-    - image limit
-    - json api fuzzers
-    - form api fuzzers
-    - pathfinders (js-made requests, json, comments, [src], [href], [action]
-    - submitting a zip-bomb
-    - submitting a single-use request multiple times in parallel ( example; gift cards )
-    - choosing values outside the range allowed through the frontend
-    - image size limit checker
-    - authorizing a browser (& blocking logout calls?, verifying email, verifying phone)
