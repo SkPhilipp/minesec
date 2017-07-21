@@ -38,7 +38,6 @@ public class SpiderPageRule implements Rule {
         webDriver.findElements(By.cssSelector("[href]")).stream()
                 .map(webElement -> webElement.getAttribute("href"))
                 .forEach(href -> {
-                    // TODO: Pathfinders (js-made requests, json, comments, [src], [href], [action]
                     // TODO: Use a domain whitelist
                     // TODO: Use a shared set of URLs
                     // TODO: Use a shared set of whitelisted domains

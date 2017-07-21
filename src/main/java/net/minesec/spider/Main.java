@@ -3,6 +3,8 @@ package net.minesec.spider;
 import net.minesec.rules.api.Context;
 import net.minesec.rules.api.ContextBuilder;
 import net.minesec.rules.api.Rule;
+import net.minesec.spider.rules.RuleCallingHttpFiltersSource;
+import net.minesec.spider.rules.Rules;
 import org.littleshoot.proxy.HttpProxyServer;
 import org.littleshoot.proxy.impl.DefaultHttpProxyServer;
 import org.littleshoot.proxy.mitm.CertificateSniffingMitmManager;

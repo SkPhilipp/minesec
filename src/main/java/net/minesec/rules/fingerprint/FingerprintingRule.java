@@ -23,7 +23,7 @@ public class FingerprintingRule implements Rule {
 
     @Override
     public void apply(Context ctx) {
-        // TODO: If possible, implement Wappalizer rules here as well
+        // TODO: If possible, implement https://github.com/AliasIO/Wappalyzer if license-possible
         final HttpResponse response = ctx.getResponse();
         if (response instanceof FullHttpResponse) {
             FullHttpResponse fullHttpResponse = (FullHttpResponse) response;

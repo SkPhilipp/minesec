@@ -26,7 +26,12 @@
 
 ## Must have
 
-- Vulnerable test sites
+- Read through https://www.owasp.org/index.php/OWASP_Testing_Guide_v4_Table_of_Contents
+  Currently at #4.5
+- Vulnerable test site
+  Setup with VMs:
+  https://www.owasp.org/index.php/OWASP_Vulnerable_Web_Applications_Directory_Project/Pages/VMs
+
 
 ## Nice to have
 

@@ -6,7 +6,7 @@ import net.minesec.rules.api.Rule;
 /**
  * Copyright (c) 21-7-17, MineSec. All rights reserved.
  */
-public class FormApiFuzzRule implements Rule {
+public class FormHiddenRule implements Rule {
     @Override
     public Moment moment() {
         return Moment.PAGE_LOAD;
@@ -14,8 +14,6 @@ public class FormApiFuzzRule implements Rule {
 
     @Override
     public void apply(Context ctx) {
-        // TODO: Form discovery and fuzzing
-        // TODO: Submitting a single-use request multiple times in parallel ( example; gift cards )
-        // TODO: Enumerating and then choosing values outside the range allowed through the frontend
+        // TODO: Check for hidden fields and report them
     }
 }

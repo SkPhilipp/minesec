@@ -1,4 +1,4 @@
-package net.minesec.spider;
+package net.minesec.spider.rules;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.HttpRequest;
@@ -11,7 +11,7 @@ import org.littleshoot.proxy.HttpFiltersSource;
  * <p>
  * Implements 100 MB per-request buffers
  */
-class RuleCallingHttpFiltersSource implements HttpFiltersSource {
+public class RuleCallingHttpFiltersSource implements HttpFiltersSource {
 
     private static final int MAXIMUM_BUFFER_SIZE_IN_BYTES_REQUEST = 1024 * 1024 * 100;
     private static final int MAXIMUM_BUFFER_SIZE_IN_BYTES_RESPONSE = 1024 * 1024 * 100;
@@ -32,7 +32,7 @@ class RuleCallingHttpFiltersSource implements HttpFiltersSource {
         return MAXIMUM_BUFFER_SIZE_IN_BYTES_RESPONSE;
     }
 
-    void setContextBuilder(ContextBuilder contextBuilder) {
+    public void setContextBuilder(ContextBuilder contextBuilder) {
         this.contextBuilder = contextBuilder;
     }
 }
