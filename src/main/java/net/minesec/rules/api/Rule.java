@@ -1,4 +1,4 @@
-package net.minesec.rules;
+package net.minesec.rules.api;
 
 /**
  * Copyright (c) 20-7-17, MineSec. All rights reserved.

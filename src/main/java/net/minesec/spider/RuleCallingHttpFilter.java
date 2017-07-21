@@ -4,9 +4,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.HttpObject;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
-import net.minesec.rules.Context;
-import net.minesec.rules.Rule;
-import net.minesec.rules.Rules;
+import net.minesec.rules.api.Context;
+import net.minesec.rules.api.Rule;
 import org.littleshoot.proxy.HttpFiltersAdapter;
 
 /**

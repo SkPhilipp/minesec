@@ -1,7 +1,7 @@
 package net.minesec.rules.mock;
 
-import net.minesec.rules.Context;
-import net.minesec.rules.Rule;
+import net.minesec.rules.api.Context;
+import net.minesec.rules.api.Rule;
 
 /**
  * Copyright (c) 21-7-17, MineSec. All rights reserved.

@@ -1,4 +1,4 @@
-package net.minesec.rules.correlations;
+package net.minesec.rules.image;
 
 import net.minesec.rules.api.Context;
 import net.minesec.rules.api.Rule;
@@ -6,7 +6,7 @@ import net.minesec.rules.api.Rule;
 /**
  * Copyright (c) 21-7-17, MineSec. All rights reserved.
  */
-public class IoCorrelationRule implements Rule {
+public class ImageRule implements Rule {
     @Override
     public Moment moment() {
         return Moment.RESPONSE;
@@ -14,6 +14,6 @@ public class IoCorrelationRule implements Rule {
 
     @Override
     public void apply(Context ctx) {
-        // TODO: i/o registry(find matches between earlier requests and the response)
+        // TODO: Image size limit checker
     }
 }

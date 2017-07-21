@@ -1,4 +1,4 @@
-package net.minesec.rules;
+package net.minesec.rules.api;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;

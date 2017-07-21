@@ -1,13 +1,12 @@
-package net.minesec.rules.vulnerability;
+package net.minesec.rules.fingerprint;
 
-import net.minesec.rules.Context;
-import net.minesec.rules.Rule;
-import net.minesec.rules.fingerprint.ResponseFingerprintRule;
+import net.minesec.rules.api.Context;
+import net.minesec.rules.api.Rule;
 
 /**
  * Copyright (c) 21-7-17, MineSec. All rights reserved.
  */
-public class FingerprintVulnerbilityLookup implements Rule {
+public class FingerprintVulnerbilityLookupRule implements Rule {
     @Override
     public Moment moment() {
         return Moment.SETUP;
@@ -15,7 +14,7 @@ public class FingerprintVulnerbilityLookup implements Rule {
 
     @Override
     public void apply(Context ctx) {
-        ctx.addMetaListener(ResponseFingerprintRule.Meta.class, meta -> {
+        ctx.addMetaListener(FingerprintingRule.Meta.class, meta -> {
             // TODO: Vulnerability lookup for the respective technologies and versions
         });
     }

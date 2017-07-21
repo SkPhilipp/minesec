@@ -1,4 +1,4 @@
-package net.minesec.rules.correlations;
+package net.minesec.rules.compression;
 
 import net.minesec.rules.api.Context;
 import net.minesec.rules.api.Rule;
@@ -6,14 +6,14 @@ import net.minesec.rules.api.Rule;
 /**
  * Copyright (c) 21-7-17, MineSec. All rights reserved.
  */
-public class IoCorrelationRule implements Rule {
+public class ZipBombRule implements Rule {
     @Override
     public Moment moment() {
-        return Moment.RESPONSE;
+        return Moment.SETUP;
     }
 
     @Override
     public void apply(Context ctx) {
-        // TODO: i/o registry(find matches between earlier requests and the response)
+        // TODO: Submitting a zip-bomb
     }
 }

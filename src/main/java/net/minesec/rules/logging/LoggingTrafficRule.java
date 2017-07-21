@@ -4,8 +4,8 @@ import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
-import net.minesec.rules.Context;
-import net.minesec.rules.Rule;
+import net.minesec.rules.api.Context;
+import net.minesec.rules.api.Rule;
 
 import static io.netty.util.CharsetUtil.UTF_8;
 

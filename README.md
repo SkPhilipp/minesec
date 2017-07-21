@@ -1,30 +1,3 @@
-# TODOs:
-
-## Must have
-
-- Vulnerable test sites
-- Architecture implementation
-
-## Nice to have
-
-- Git bisect integration
-
-## Uncategorized ideas
-
-- Bug bounty indexer should use search engines alongside existing indexes
-- Spider could identify page structure as not to crawl the same type of page more than N times
-- Spider could identify login and registration forms and automatically authorize
-- DNS Scanner integrations
-- Port Scanner integrations
-- Authorizers
-- Form api fuzzers
-- Pathfinders (js-made requests, json, comments, [src], [href], [action]
-- Submitting a zip-bomb
-- Submitting a single-use request multiple times in parallel ( example; gift cards )
-- Choosing values outside the range allowed through the frontend
-- Image size limit checker
-- Authorizing a browser (& blocking logout calls?, verifying email, verifying phone)
-
 # Development
 
 ## Installation:
@@ -48,3 +21,20 @@
 
     gradle run -Pcrawl=https://4chan.org
     gradle run -Pindex
+
+# TODOs:
+
+## Must have
+
+- Vulnerable test sites
+
+## Nice to have
+
+## Uncategorized ideas
+
+- Authorizing a browser (& blocking logout calls?, verifying email, verifying phone)
+
+## Not in scope
+
+- DNS Scanner integrations
+- Port Scanner integrations

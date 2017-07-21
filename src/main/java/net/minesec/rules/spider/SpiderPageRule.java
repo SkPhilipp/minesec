@@ -1,7 +1,7 @@
 package net.minesec.rules.spider;
 
-import net.minesec.rules.Context;
-import net.minesec.rules.Rule;
+import net.minesec.rules.api.Context;
+import net.minesec.rules.api.Rule;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -38,9 +38,12 @@ public class SpiderPageRule implements Rule {
         webDriver.findElements(By.cssSelector("[href]")).stream()
                 .map(webElement -> webElement.getAttribute("href"))
                 .forEach(href -> {
+                    // TODO: Pathfinders (js-made requests, json, comments, [src], [href], [action]
                     // TODO: Use a domain whitelist
                     // TODO: Use a shared set of URLs
                     // TODO: Use a shared set of whitelisted domains
+                    // TODO: Spider could identify page structure as not to crawl the same type of page more than N times
+                    // TODO: Spider could identify login and registration forms and automatically authorize
                     if (!this.urls.contains(href)) {
                         this.urls.add(href);
                         ctx.queueTask(webDriver1 -> {

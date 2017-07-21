@@ -3,13 +3,13 @@ package net.minesec.rules.fingerprint;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpResponse;
 import lombok.Data;
-import net.minesec.rules.Context;
-import net.minesec.rules.Rule;
+import net.minesec.rules.api.Context;
+import net.minesec.rules.api.Rule;
 
 /**
  * Copyright (c) 21-7-17, MineSec. All rights reserved.
  */
-public class ResponseFingerprintRule implements Rule {
+public class FingerprintingRule implements Rule {
 
     @Data
     public static class Meta {

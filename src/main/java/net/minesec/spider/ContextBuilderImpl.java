@@ -2,8 +2,8 @@ package net.minesec.spider;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
-import net.minesec.rules.Context;
-import net.minesec.rules.ContextBuilder;
+import net.minesec.rules.api.Context;
+import net.minesec.rules.api.ContextBuilder;
 import org.openqa.selenium.WebDriver;
 
 import java.util.ArrayList;
