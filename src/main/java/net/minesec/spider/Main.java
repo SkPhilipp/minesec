@@ -1,6 +1,7 @@
 package net.minesec.spider;
 
 import net.minesec.rules.Rules;
+import net.minesec.rules.core.*;
 import org.littleshoot.proxy.HttpProxyServer;
 import org.littleshoot.proxy.impl.DefaultHttpProxyServer;
 import org.littleshoot.proxy.mitm.CertificateSniffingMitmManager;
@@ -29,13 +30,15 @@ class Main {
         InetSocketAddress address = httpProxyServer.getListenAddress();
         String proxyAddress = String.format("%s:%d", address.getHostName(), address.getPort());
         WebDriverPool webDriverPool = new WebDriverPool(SESSIONS_LIMIT, proxyAddress);
-        filtersSource.setTaskConsumer(webDriverPool::queue);
+        ContextBuilder contextBuilder = new ContextBuilderImpl(webDriverPool);
+        filtersSource.setContextBuilder(contextBuilder);
         try {
             webDriverPool.queue(webDriver -> {
                 webDriver.get(args[0]);
                 WebDriverWait webDriverWait = new WebDriverWait(webDriver, 30);
                 webDriverWait.until(jsDriver -> ((JavascriptExecutor) jsDriver).executeScript("return document.readyState").equals("complete"));
-                Rules.PAGE_RULES.parallelStream().forEach(pageRule -> pageRule.process(webDriver, webDriverPool::queue));
+                final Context context = contextBuilder.build(webDriver);
+                Rules.invokeAll(Rule.Moment.AFTER_PAGE_LOAD, context);
             });
             Thread.sleep(1000 * 60 * 60 * 24);
         } finally {

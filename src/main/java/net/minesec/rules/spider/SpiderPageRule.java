@@ -1,6 +1,7 @@
 package net.minesec.rules.spider;
 
-import net.minesec.rules.core.PageRule;
+import net.minesec.rules.core.Context;
+import net.minesec.rules.core.Rule;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -10,43 +11,45 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Consumer;
 
 /**
  * Copyright (c) 16-7-17, MineSec. All rights reserved.
  */
-public class SpiderPageRule implements PageRule {
+public class SpiderPageRule implements Rule {
 
-    // TODO: Implement domain filtering, allow setup from global context?
-    private final Set<String> domains;
     private final Set<String> urls;
 
     public SpiderPageRule() {
-        this.domains = new HashSet<>();
         this.urls = new HashSet<>();
     }
 
     @Override
-    public void process(WebDriver webDriver, Consumer<Consumer<WebDriver>> taskConsumer) {
+    public Moment moment() {
+        return Moment.AFTER_PAGE_LOAD;
+    }
+
+    @Override
+    public void apply(Context ctx) {
+        final WebDriver webDriver = ctx.webdriver();
+
+        System.out.println(webDriver.getCurrentUrl());
         webDriver.findElements(By.cssSelector("button"));
         webDriver.findElements(By.cssSelector("form"));
         webDriver.findElements(By.cssSelector("[href]")).stream()
                 .map(webElement -> webElement.getAttribute("href"))
                 .forEach(href -> {
+                    // TODO: Use a domain whitelist
+                    // TODO: Use a shared set of URLs
                     if (!this.urls.contains(href)) {
-                        System.out.println(href);
                         this.urls.add(href);
-                        taskConsumer.accept(webDriver1 -> {
+                        ctx.queue(webDriver1 -> {
                             webDriver1.get(href);
                             WebDriverWait webDriverWait = new WebDriverWait(webDriver, 60);
                             webDriverWait.until(jsDriver -> ((JavascriptExecutor) jsDriver).executeScript("return document.readyState").equals("complete"));
                         });
-                    } else {
-                        System.out.println("Duplicate: " + href);
                     }
                 });
         List<WebElement> a2 = webDriver.findElements(By.cssSelector("[src]"));
-        a2.forEach(webElement -> System.out.println(webElement.getAttribute("src")));
         webDriver.findElements(By.cssSelector("[class^='btn']"));
         webDriver.findElements(By.cssSelector("[class^='button']"));
         webDriver.findElements(By.cssSelector("[onclick]"));

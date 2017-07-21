@@ -1,4 +1,4 @@
-package net.minesec.spider;
+package net.minesec.rules.core;
 
 import org.eclipse.jetty.util.BlockingArrayQueue;
 import org.openqa.selenium.Proxy;
@@ -21,7 +21,7 @@ import static org.openqa.selenium.chrome.ChromeOptions.CAPABILITY;
 /**
  * Copyright (c) 16-7-17, MineSec. All rights reserved.
  */
-class WebDriverPool {
+public class WebDriverPool {
 
     private static final String CAPABILITY_HEADLESS = "headless";
 
@@ -55,7 +55,7 @@ class WebDriverPool {
      * @param task a task which essentially leases a webdriver. this task must
      *             return only when the webdriver is free to use for other tasks.
      */
-    void queue(Consumer<WebDriver> task) {
+    public void queue(Consumer<WebDriver> task) {
         WebDriver webDriver = this.ready.poll();
         if (webDriver == null) {
             if (this.sessionsActive < this.sessionsLimit) {
@@ -114,7 +114,7 @@ class WebDriverPool {
     /**
      * Quits all WebDrivers.
      */
-    void stop() {
+    public void stop() {
         this.webDrivers.parallelStream().forEach(WebDriver::quit);
     }
 
