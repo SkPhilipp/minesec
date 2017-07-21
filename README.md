@@ -16,6 +16,14 @@
 - Spider could identify login and registration forms and automatically authorize
 - DNS Scanner integrations
 - Port Scanner integrations
+- Authorizers
+- Form api fuzzers
+- Pathfinders (js-made requests, json, comments, [src], [href], [action]
+- Submitting a zip-bomb
+- Submitting a single-use request multiple times in parallel ( example; gift cards )
+- Choosing values outside the range allowed through the frontend
+- Image size limit checker
+- Authorizing a browser (& blocking logout calls?, verifying email, verifying phone)
 
 # Development
 
