@@ -1,7 +1,9 @@
 package net.minesec.spider;
 
+import net.minesec.rules.Context;
+import net.minesec.rules.ContextBuilder;
+import net.minesec.rules.Rule;
 import net.minesec.rules.Rules;
-import net.minesec.rules.core.*;
 import org.littleshoot.proxy.HttpProxyServer;
 import org.littleshoot.proxy.impl.DefaultHttpProxyServer;
 import org.littleshoot.proxy.mitm.CertificateSniffingMitmManager;
@@ -20,6 +22,7 @@ class Main {
 
     public static void main(String[] args) throws InterruptedException, RootCertificateException {
         RuleCallingHttpFiltersSource filtersSource = new RuleCallingHttpFiltersSource();
+        // TODO: Start one proxy server per webdriver, to allow the request-bound contexts to always have a parent webdriver
         HttpProxyServer httpProxyServer = DefaultHttpProxyServer.bootstrap()
                 .withAllowLocalOnly(true)
                 .withTransparent(true)
@@ -38,7 +41,7 @@ class Main {
                 WebDriverWait webDriverWait = new WebDriverWait(webDriver, 30);
                 webDriverWait.until(jsDriver -> ((JavascriptExecutor) jsDriver).executeScript("return document.readyState").equals("complete"));
                 final Context context = contextBuilder.build(webDriver);
-                Rules.invokeAll(Rule.Moment.AFTER_PAGE_LOAD, context);
+                Rules.invokeAll(Rule.Moment.PAGE_LOAD, context);
             });
             Thread.sleep(1000 * 60 * 60 * 24);
         } finally {

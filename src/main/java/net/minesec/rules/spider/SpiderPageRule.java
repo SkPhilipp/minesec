@@ -1,7 +1,7 @@
 package net.minesec.rules.spider;
 
-import net.minesec.rules.core.Context;
-import net.minesec.rules.core.Rule;
+import net.minesec.rules.Context;
+import net.minesec.rules.Rule;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -25,7 +25,7 @@ public class SpiderPageRule implements Rule {
 
     @Override
     public Moment moment() {
-        return Moment.AFTER_PAGE_LOAD;
+        return Moment.PAGE_LOAD;
     }
 
     @Override

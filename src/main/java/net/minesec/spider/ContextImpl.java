@@ -1,7 +1,8 @@
-package net.minesec.rules.core;
+package net.minesec.spider;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
+import net.minesec.rules.Context;
 import org.openqa.selenium.WebDriver;
 
 import java.util.*;
@@ -60,13 +61,11 @@ class ContextImpl implements Context {
         this.httpResponse = httpResponse;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public <T> Optional<T> getMeta(Class<T> type) {
         return Optional.ofNullable((T) this.meta.get(type));
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public <T> void setMeta(Class<? extends T> type, T instance) {
         this.meta.put(type, instance);

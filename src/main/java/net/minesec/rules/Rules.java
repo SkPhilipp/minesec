@@ -1,8 +1,7 @@
 package net.minesec.rules;
 
-import net.minesec.rules.core.Context;
-import net.minesec.rules.core.Rule;
 import net.minesec.rules.logging.LoggingTrafficRule;
+import net.minesec.rules.mock.MockedResponseRule;
 import net.minesec.rules.spider.SpiderPageRule;
 
 import java.util.*;
@@ -18,6 +17,7 @@ public class Rules {
         ALL = new HashMap<>();
         put(ALL, new LoggingTrafficRule());
         put(ALL, new SpiderPageRule());
+        put(ALL, new MockedResponseRule());
     }
 
     private static void put(Map<Rule.Moment, List<Rule>> rules, Rule rule) {

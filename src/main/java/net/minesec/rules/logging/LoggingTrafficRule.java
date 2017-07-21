@@ -4,8 +4,8 @@ import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
-import net.minesec.rules.core.Context;
-import net.minesec.rules.core.Rule;
+import net.minesec.rules.Context;
+import net.minesec.rules.Rule;
 
 import static io.netty.util.CharsetUtil.UTF_8;
 
@@ -16,7 +16,7 @@ public class LoggingTrafficRule implements Rule {
 
     @Override
     public Moment moment() {
-        return Moment.AFTER_RESPONSE;
+        return Moment.RESPONSE;
     }
 
     @Override

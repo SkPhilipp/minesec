@@ -2,7 +2,7 @@ package net.minesec.spider;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.HttpRequest;
-import net.minesec.rules.core.ContextBuilder;
+import net.minesec.rules.ContextBuilder;
 import org.littleshoot.proxy.HttpFilters;
 import org.littleshoot.proxy.HttpFiltersSource;
 

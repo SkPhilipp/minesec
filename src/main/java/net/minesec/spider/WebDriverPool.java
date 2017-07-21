@@ -1,4 +1,4 @@
-package net.minesec.rules.core;
+package net.minesec.spider;
 
 import org.eclipse.jetty.util.BlockingArrayQueue;
 import org.openqa.selenium.Proxy;
