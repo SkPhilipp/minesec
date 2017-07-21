@@ -30,7 +30,7 @@ public class SpiderPageRule implements Rule {
 
     @Override
     public void apply(Context ctx) {
-        final WebDriver webDriver = ctx.webdriver();
+        final WebDriver webDriver = ctx.getWebDriver();
 
         System.out.println(webDriver.getCurrentUrl());
         webDriver.findElements(By.cssSelector("button"));
@@ -40,9 +40,10 @@ public class SpiderPageRule implements Rule {
                 .forEach(href -> {
                     // TODO: Use a domain whitelist
                     // TODO: Use a shared set of URLs
+                    // TODO: Use a shared set of whitelisted domains
                     if (!this.urls.contains(href)) {
                         this.urls.add(href);
-                        ctx.queue(webDriver1 -> {
+                        ctx.queueTask(webDriver1 -> {
                             webDriver1.get(href);
                             WebDriverWait webDriverWait = new WebDriverWait(webDriver, 60);
                             webDriverWait.until(jsDriver -> ((JavascriptExecutor) jsDriver).executeScript("return document.readyState").equals("complete"));

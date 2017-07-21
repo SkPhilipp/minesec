@@ -21,8 +21,8 @@ public class LoggingTrafficRule implements Rule {
 
     @Override
     public void apply(final Context ctx) {
-        final HttpRequest request = ctx.request();
-        final HttpResponse response = ctx.response();
+        final HttpRequest request = ctx.getRequest();
+        final HttpResponse response = ctx.getResponse();
         if (response instanceof HttpContent && request instanceof FullHttpRequest) {
             final FullHttpRequest fullHttpRequest = (FullHttpRequest) request;
             final HttpContent httpContent = (HttpContent) response;

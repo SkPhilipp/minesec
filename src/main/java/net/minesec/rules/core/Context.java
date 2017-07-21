@@ -12,13 +12,17 @@ import java.util.function.Consumer;
  */
 public interface Context {
 
-    WebDriver webdriver();
+    WebDriver getWebDriver();
 
-    void queue(Consumer<WebDriver> task);
+    void queueTask(Consumer<WebDriver> task);
 
-    HttpRequest request();
+    HttpRequest getRequest();
 
-    HttpResponse response();
+    HttpResponse getResponse();
+
+    void setRequest(HttpRequest httpRequest);
+
+    void setResponse(HttpResponse httpResponse);
 
     // TODO: Could differentiate between events and attributes, instead of one generic "meta" name
     // TODO: Could mark a certain rule as completed, and allow others to listen for completion

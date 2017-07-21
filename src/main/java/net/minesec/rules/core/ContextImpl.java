@@ -16,8 +16,8 @@ class ContextImpl implements Context {
     private final Map<Class<?>, List<Consumer<?>>> metaListeners;
     private final WebDriverPool webDriverPool;
     private final WebDriver webdriver;
-    private final HttpRequest httpRequest;
-    private final HttpResponse httpResponse;
+    private HttpRequest httpRequest;
+    private HttpResponse httpResponse;
 
     ContextImpl(Map<Class<?>, List<Consumer<?>>> metaListeners,
                 WebDriverPool webDriverPool, WebDriver webdriver,
@@ -31,23 +31,33 @@ class ContextImpl implements Context {
     }
 
     @Override
-    public WebDriver webdriver() {
+    public WebDriver getWebDriver() {
         return this.webdriver;
     }
 
     @Override
-    public void queue(Consumer<WebDriver> task) {
+    public void queueTask(Consumer<WebDriver> task) {
         this.webDriverPool.queue(task);
     }
 
     @Override
-    public HttpRequest request() {
+    public HttpRequest getRequest() {
         return this.httpRequest;
     }
 
     @Override
-    public HttpResponse response() {
+    public HttpResponse getResponse() {
         return this.httpResponse;
+    }
+
+    @Override
+    public void setRequest(HttpRequest httpRequest) {
+        this.httpRequest = httpRequest;
+    }
+
+    @Override
+    public void setResponse(HttpResponse httpResponse) {
+        this.httpResponse = httpResponse;
     }
 
     @SuppressWarnings("unchecked")

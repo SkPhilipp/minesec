@@ -19,7 +19,7 @@ class RuleCallingHttpFiltersSource implements HttpFiltersSource {
 
     @Override
     public HttpFilters filterRequest(HttpRequest originalRequest, ChannelHandlerContext ctx) {
-        return new RuleCallingHttpFilter(originalRequest, ctx, this.contextBuilder);
+        return new RuleCallingHttpFilter(originalRequest, ctx, this.contextBuilder.build());
     }
 
     @Override
