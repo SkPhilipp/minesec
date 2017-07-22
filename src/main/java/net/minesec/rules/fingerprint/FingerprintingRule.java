@@ -29,7 +29,7 @@ public class FingerprintingRule implements Rule {
             FullHttpResponse fullHttpResponse = (FullHttpResponse) response;
             Meta meta = new Meta();
             final String setCookieHeader = fullHttpResponse.headers().get("Set-Cookie");
-            if (setCookieHeader.contains("JSESSIONID")) {
+            if (setCookieHeader != null && setCookieHeader.contains("JSESSIONID")) {
                 meta.setJava(true);
             }
             ctx.setMeta(meta);
