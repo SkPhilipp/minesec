@@ -18,6 +18,7 @@ dependencies {
     compile 'org.littleshoot:littleproxy:1.1.2'
     compile 'org.jsoup:jsoup:1.10.3'
     compile 'com.github.ganskef:littleproxy-mitm:1.1.0'
+    compile 'com.orientechnologies:orientdb-client:2.2.24'
     testCompile 'junit:junit:4.12'
 }
 

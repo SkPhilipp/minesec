@@ -31,7 +31,17 @@
 - Vulnerable test site
   Setup with VMs:
   https://www.owasp.org/index.php/OWASP_Vulnerable_Web_Applications_Directory_Project/Pages/VMs
-
+- OrientDB Installation
+  wget https://orientdb.com/download.php?file=orientdb-community-importers-2.2.24.tar.gz&os=linux
+  find-replace /home/philipp/Downloads/orientdb-community-importers-2.2.24
+  find-replace philipp
+  To install OrientDB as a service on an init-based unix or Linux system, copy the modified orientdb.sh file from $ORIENTDB_HOME/bin into /etc/init.d/:
+  cp $ORIENTDB_HOME/bin/orientdb.sh /etc/init.d/orientdb
+  open localhost:2480
+  ./orientdb.sh start
+  vim config/orientdb-server-config.xml
+    replace root pw with a plaintext one for local development
+    go to localhost:2480 and create a new db
 
 ## Nice to have
 
