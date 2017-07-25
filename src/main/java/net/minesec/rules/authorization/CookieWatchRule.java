@@ -1,5 +1,7 @@
 package net.minesec.rules.authorization;
 
+import com.orientechnologies.orient.core.db.document.ODatabaseDocumentTx;
+import com.orientechnologies.orient.core.record.impl.ODocument;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpResponse;
 import net.minesec.rules.api.Context;
@@ -21,13 +23,14 @@ public class CookieWatchRule implements Rule {
         final HttpResponse response = ctx.getResponse();
         if (response instanceof FullHttpResponse) {
             FullHttpResponse fullHttpResponse = (FullHttpResponse) response;
-            FingerprintingRule.Meta meta = new FingerprintingRule.Meta();
             final String setCookieHeader = fullHttpResponse.headers().get("Set-Cookie");
             if (setCookieHeader != null) {
-                // TODO: Use shared logging
-                System.out.println("Set-Cookie:" + setCookieHeader);
+                final ODatabaseDocumentTx db = ctx.getDatabase();
+                ODocument doc = db.newInstance("HeaderChange");
+                doc.field("message", "Set-Cookie");
+                doc.field("cookie", setCookieHeader);
+                db.save(doc);
             }
-            // TODO: Save meta on ctx db
         }
     }
 }

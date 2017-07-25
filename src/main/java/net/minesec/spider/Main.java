@@ -1,5 +1,9 @@
 package net.minesec.spider;
 
+import com.orientechnologies.orient.core.db.OPartitionedDatabasePool;
+import com.orientechnologies.orient.core.db.OPartitionedDatabasePoolFactory;
+import com.orientechnologies.orient.core.db.document.ODatabaseDocumentTx;
+import com.orientechnologies.orient.core.record.impl.ODocument;
 import net.minesec.rules.api.Context;
 import net.minesec.rules.api.ContextImpl;
 import net.minesec.rules.api.Rule;
@@ -19,6 +23,7 @@ import java.net.InetSocketAddress;
 class Main {
 
     private static final int SESSIONS_LIMIT = 10;
+    private static final int DB_POOL_LIMIT = 100;
 
     public static void main(String[] args) throws InterruptedException, RootCertificateException {
         RuleCallingHttpFiltersSource filtersSource = new RuleCallingHttpFiltersSource();
@@ -32,17 +37,21 @@ class Main {
                 .start();
         InetSocketAddress address = httpProxyServer.getListenAddress();
         String proxyAddress = String.format("%s:%d", address.getHostName(), address.getPort());
+        final OPartitionedDatabasePoolFactory dbPoolFactory = new OPartitionedDatabasePoolFactory();
+        dbPoolFactory.setMaxPoolSize(DB_POOL_LIMIT);
+        final OPartitionedDatabasePool dbPool = dbPoolFactory.get("remote:localhost/minesec", "admin", "admin");
         try (WebDriverPool webDriverPool = new WebDriverPool(SESSIONS_LIMIT, proxyAddress)) {
-            filtersSource.setContextBuilder(() -> new ContextImpl(webDriverPool, null, null, null));
+            filtersSource.setContextBuilder(() -> new ContextImpl(webDriverPool, dbPool, null, null, null));
             webDriverPool.queue(webDriver -> {
                 webDriver.get(args[0]);
                 WebDriverWait webDriverWait = new WebDriverWait(webDriver, 30);
                 webDriverWait.until(jsDriver -> ((JavascriptExecutor) jsDriver).executeScript("return document.readyState").equals("complete"));
-                final Context context = new ContextImpl(webDriverPool, webDriver, null, null);
+                final Context context = new ContextImpl(webDriverPool, dbPool, webDriver, null, null);
                 Rules.invokeAll(Rule.Moment.PAGE_LOAD, context);
             });
             Thread.sleep(1000 * 60 * 60 * 24);
         } finally {
+            dbPool.close();
             httpProxyServer.stop();
         }
     }

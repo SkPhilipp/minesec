@@ -22,6 +22,16 @@
     gradle run -Pcrawl=https://4chan.org
     gradle run -Pindex
 
+---
+
+    ODocument doc = db.newInstance("Header-Change");
+    doc.field("name", "P");
+    doc.field("surname", "nG");
+    doc.field("city", db.newInstance("City")
+            .field("name", "Rome")
+            .field("country", "Italy"));
+    db.save(doc);
+
 # TODOs:
 
 ## Must have

@@ -1,5 +1,6 @@
 package net.minesec.rules.api;
 
+import com.orientechnologies.orient.core.db.OPartitionedDatabasePool;
 import com.orientechnologies.orient.core.db.document.ODatabaseDocumentTx;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
@@ -10,8 +11,6 @@ import lombok.experimental.Delegate;
 import net.minesec.spider.WebDriverPool;
 import org.openqa.selenium.WebDriver;
 
-import java.util.function.Consumer;
-
 /**
  * Copyright (c) 21-7-17, MineSec. All rights reserved.
  */
@@ -20,6 +19,7 @@ public class ContextImpl implements Context {
 
     @Delegate
     private final WebDriverPool webDriverPool;
+    private final OPartitionedDatabasePool oPartitionedDatabasePool;
     @Getter
     @Setter
     private WebDriver webDriver;
@@ -32,8 +32,7 @@ public class ContextImpl implements Context {
 
     @Override
     public ODatabaseDocumentTx getDatabase() {
-        // TODO: Get from pool
-        return null;
+        return oPartitionedDatabasePool.acquire();
     }
 
 }
