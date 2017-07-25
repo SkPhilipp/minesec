@@ -1,4 +1,4 @@
-package net.minesec.spider.rules;
+package net.minesec.rules;
 
 import net.minesec.rules.api.Context;
 import net.minesec.rules.api.Rule;

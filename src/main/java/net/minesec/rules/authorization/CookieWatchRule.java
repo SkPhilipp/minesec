@@ -27,7 +27,7 @@ public class CookieWatchRule implements Rule {
                 // TODO: Use shared logging
                 System.out.println("Set-Cookie:" + setCookieHeader);
             }
-            ctx.setMeta(meta);
+            // TODO: Save meta on ctx db
         }
     }
 }

@@ -32,7 +32,7 @@ public class FingerprintingRule implements Rule {
             if (setCookieHeader != null && setCookieHeader.contains("JSESSIONID")) {
                 meta.setJava(true);
             }
-            ctx.setMeta(meta);
+            // TODO: Save data on context
         }
 
     }

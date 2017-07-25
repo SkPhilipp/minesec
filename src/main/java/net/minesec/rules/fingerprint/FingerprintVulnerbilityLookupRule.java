@@ -14,8 +14,6 @@ public class FingerprintVulnerbilityLookupRule implements Rule {
 
     @Override
     public void apply(Context ctx) {
-        ctx.addMetaListener(FingerprintingRule.Meta.class, meta -> {
-            // TODO: Vulnerability lookup for the respective technologies and versions
-        });
+        // TODO: Vulnerability lookup for the respective technologies and versions
     }
 }

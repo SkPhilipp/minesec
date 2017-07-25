@@ -1,10 +1,9 @@
 package net.minesec.spider;
 
 import net.minesec.rules.api.Context;
-import net.minesec.rules.api.ContextBuilder;
+import net.minesec.rules.api.ContextImpl;
 import net.minesec.rules.api.Rule;
-import net.minesec.spider.rules.RuleCallingHttpFiltersSource;
-import net.minesec.spider.rules.Rules;
+import net.minesec.rules.Rules;
 import org.littleshoot.proxy.HttpProxyServer;
 import org.littleshoot.proxy.impl.DefaultHttpProxyServer;
 import org.littleshoot.proxy.mitm.CertificateSniffingMitmManager;
@@ -33,20 +32,17 @@ class Main {
                 .start();
         InetSocketAddress address = httpProxyServer.getListenAddress();
         String proxyAddress = String.format("%s:%d", address.getHostName(), address.getPort());
-        WebDriverPool webDriverPool = new WebDriverPool(SESSIONS_LIMIT, proxyAddress);
-        ContextBuilder contextBuilder = new ContextBuilderImpl(webDriverPool);
-        filtersSource.setContextBuilder(contextBuilder);
-        try {
+        try (WebDriverPool webDriverPool = new WebDriverPool(SESSIONS_LIMIT, proxyAddress)) {
+            filtersSource.setContextBuilder(() -> new ContextImpl(webDriverPool, null, null, null));
             webDriverPool.queue(webDriver -> {
                 webDriver.get(args[0]);
                 WebDriverWait webDriverWait = new WebDriverWait(webDriver, 30);
                 webDriverWait.until(jsDriver -> ((JavascriptExecutor) jsDriver).executeScript("return document.readyState").equals("complete"));
-                final Context context = contextBuilder.build(webDriver);
+                final Context context = new ContextImpl(webDriverPool, webDriver, null, null);
                 Rules.invokeAll(Rule.Moment.PAGE_LOAD, context);
             });
             Thread.sleep(1000 * 60 * 60 * 24);
         } finally {
-            webDriverPool.stop();
             httpProxyServer.stop();
         }
     }

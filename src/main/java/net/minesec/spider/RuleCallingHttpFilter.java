@@ -1,10 +1,12 @@
-package net.minesec.spider.rules;
+package net.minesec.spider;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.HttpObject;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
+import net.minesec.rules.Rules;
 import net.minesec.rules.api.Context;
+import net.minesec.rules.api.ContextImpl;
 import net.minesec.rules.api.Rule;
 import org.littleshoot.proxy.HttpFiltersAdapter;
 
@@ -13,11 +15,11 @@ import org.littleshoot.proxy.HttpFiltersAdapter;
  */
 class RuleCallingHttpFilter extends HttpFiltersAdapter {
 
-    private final Context context;
+    private final ContextImpl context;
 
     RuleCallingHttpFilter(HttpRequest originalRequest,
                           ChannelHandlerContext ctx,
-                          Context context) {
+                          ContextImpl context) {
         super(originalRequest, ctx);
         this.context = context;
         Rules.invokeAll(Rule.Moment.SETUP, this.context);

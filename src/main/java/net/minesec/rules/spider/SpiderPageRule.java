@@ -45,7 +45,7 @@ public class SpiderPageRule implements Rule {
                     // TODO: Spider could identify login and registration forms and automatically authorize
                     if (!this.urls.contains(href)) {
                         this.urls.add(href);
-                        ctx.queueTask(webDriver1 -> {
+                        ctx.queue(webDriver1 -> {
                             webDriver1.get(href);
                             WebDriverWait webDriverWait = new WebDriverWait(webDriver, 60);
                             webDriverWait.until(jsDriver -> ((JavascriptExecutor) jsDriver).executeScript("return document.readyState").equals("complete"));

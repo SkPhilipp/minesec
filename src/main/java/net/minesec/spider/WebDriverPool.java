@@ -9,6 +9,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import java.io.Closeable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
@@ -21,7 +22,7 @@ import static org.openqa.selenium.chrome.ChromeOptions.CAPABILITY;
 /**
  * Copyright (c) 16-7-17, MineSec. All rights reserved.
  */
-public class WebDriverPool {
+public class WebDriverPool implements Closeable {
 
     private static final String CAPABILITY_HEADLESS = "headless";
 
@@ -114,7 +115,7 @@ public class WebDriverPool {
     /**
      * Quits all WebDrivers.
      */
-    public void stop() {
+    public void close() {
         this.webDrivers.parallelStream().forEach(WebDriver::quit);
     }
 

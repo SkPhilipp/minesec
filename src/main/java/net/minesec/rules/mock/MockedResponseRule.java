@@ -15,11 +15,11 @@ public class MockedResponseRule implements Rule {
     @Override
     public void apply(Context ctx) {
         // TODO: Under certain conditions, create a faked HttpResponse and set it on the context
-//        final HttpRequest httpRequest = ctx.getRequest();
-//        if (httpRequest.getUri().endsWith(".jpg")) {
-//            final DefaultHttpResponse httpResponse = new DefaultHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.INTERNAL_SERVER_ERROR);
-//            System.out.println("BLOCKING: " + httpRequest.getUri());
-//            ctx.setResponse(httpResponse);
+//        final HttpRequest request = ctx.getRequest();
+//        if (request.getUri().endsWith(".jpg")) {
+//            final DefaultHttpResponse response = new DefaultHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.INTERNAL_SERVER_ERROR);
+//            System.out.println("BLOCKING: " + request.getUri());
+//            ctx.setResponse(response);
 //        }
     }
 }
