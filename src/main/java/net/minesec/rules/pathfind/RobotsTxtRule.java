@@ -14,7 +14,7 @@ public class RobotsTxtRule implements Rule {
 
     @Override
     public void apply(Context ctx) {
-        // TODO: Find paths in robots.txt, especially disallowed paths
+        // TODO[RULE]: Find paths in robots.txt, especially disallowed paths
     }
 }
 

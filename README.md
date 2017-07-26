@@ -55,6 +55,8 @@
 
 ## Nice to have
 
+- Bug bounty indexer should use search engines alongside existing indexes
+
 ## Uncategorized ideas
 
 - Authorizing a browser (& blocking logout calls?, verifying email, verifying phone)

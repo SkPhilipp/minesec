@@ -14,7 +14,7 @@ public class FormApiWeaknessRule implements Rule {
 
     @Override
     public void apply(Context ctx) {
-        // TODO: Form discovery and fuzzing
-        // TODO: Identify weaknesses (ie CORS-bypassing forms)
+        // TODO[RULE]: Form discovery and fuzzing
+        // TODO[RULE]: Identify weaknesses (ie CORS-bypassing forms)
     }
 }

@@ -14,8 +14,8 @@ public class JsonApiFuzzRule implements Rule {
 
     @Override
     public void apply(Context ctx) {
-        // TODO: JSON API discovery and fuzzing
-        // TODO: Submitting a single-use request multiple times in parallel ( example; gift cards )
-        // TODO: Enumerating and then choosing values outside the range allowed through the frontend
+        // TODO[RULE]: JSON API discovery and fuzzing
+        // TODO[RULE]: Submitting a single-use request multiple times in parallel ( example; gift cards )
+        // TODO[RULE]: Enumerating and then choosing values outside the range allowed through the frontend
     }
 }

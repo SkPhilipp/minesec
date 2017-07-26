@@ -1,5 +1,7 @@
 package net.minesec.rules.graph;
 
+import com.orientechnologies.orient.core.db.document.ODatabaseDocumentTx;
+import com.orientechnologies.orient.core.record.impl.ODocument;
 import net.minesec.rules.api.Context;
 import net.minesec.rules.api.Rule;
 
@@ -14,6 +16,14 @@ public class GraphRule implements Rule {
 
     @Override
     public void apply(Context ctx) {
-        // TODO: graph (neo4j, orientdb ; reconstructing APIs automatically)
+        // TODO[CORE]: Multiple moments
+        final ODatabaseDocumentTx db = ctx.getDatabase();
+        final ODocument meta = db.newInstance(this.getClass().getSimpleName());
+        meta.field("context", ctx.getId());
+        meta.field("webdriver", ctx.getWebDriver().getCurrentUrl());
+        meta.field("uri", ctx.getRequest().getUri());
+        meta.field("host", ctx.getRequest().headers().get("Host"));
+        db.save(meta);
+
     }
 }

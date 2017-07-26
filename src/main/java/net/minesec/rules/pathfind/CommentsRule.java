@@ -14,7 +14,7 @@ public class CommentsRule implements Rule {
 
     @Override
     public void apply(Context ctx) {
-        // TODO: Find links in JS, CSS, HTML comments
+        // TODO[RULE]: Find links in JS, CSS, HTML comments
     }
 }
 

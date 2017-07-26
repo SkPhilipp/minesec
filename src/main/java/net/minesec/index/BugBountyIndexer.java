@@ -123,5 +123,4 @@ class BugBountyIndexer {
         }
     }
 
-    // TODO: Bug bounty indexer should use search engines alongside existing indexes
 }

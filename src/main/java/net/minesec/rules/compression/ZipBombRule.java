@@ -14,6 +14,6 @@ public class ZipBombRule implements Rule {
 
     @Override
     public void apply(Context ctx) {
-        // TODO: Submitting a zip-bomb
+        // TODO[RULE]: Submitting a zip-bomb
     }
 }

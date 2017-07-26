@@ -14,6 +14,6 @@ public class JsonWeaknessRule implements Rule {
 
     @Override
     public void apply(Context ctx) {
-        // TODO: Identify weaknesses (ie CORS-bypassing JSONP, or CORS-bypassing non-padded JSON)
+        // TODO[RULE]: Identify weaknesses (ie CORS-bypassing JSONP, or CORS-bypassing non-padded JSON)
     }
 }

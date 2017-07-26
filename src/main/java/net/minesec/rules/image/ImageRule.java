@@ -14,6 +14,6 @@ public class ImageRule implements Rule {
 
     @Override
     public void apply(Context ctx) {
-        // TODO: Image size limit checker
+        // TODO[[RULE]: Image size limit checker
     }
 }

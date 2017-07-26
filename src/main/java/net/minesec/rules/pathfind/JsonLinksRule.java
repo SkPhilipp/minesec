@@ -6,7 +6,7 @@ import net.minesec.rules.api.Rule;
 /**
  * Copyright (c) 21-7-17, MineSec. All rights reserved.
  */
-public class JsonLinksRule implements Rule{
+public class JsonLinksRule implements Rule {
     @Override
     public Moment moment() {
         return Moment.RESPONSE;
@@ -14,6 +14,6 @@ public class JsonLinksRule implements Rule{
 
     @Override
     public void apply(Context ctx) {
-        // TODO: Find links in JSON responses
+        // TODO[RULE]: Find links in JSON responses
     }
 }

@@ -14,7 +14,9 @@ public class MockedResponseRule implements Rule {
 
     @Override
     public void apply(Context ctx) {
-        // TODO: Under certain conditions, create a faked HttpResponse and set it on the context
+        // TODO[CORE]: Under certain conditions, create a faked HttpResponse and set it on the context
+        // TODO[CORE]: Allow configuration through user-supplied scripts
+        // TODO[CORE]: Allow passive-only browsing
 //        final HttpRequest request = ctx.getRequest();
 //        if (request.getUri().endsWith(".jpg")) {
 //            final DefaultHttpResponse response = new DefaultHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.INTERNAL_SERVER_ERROR);

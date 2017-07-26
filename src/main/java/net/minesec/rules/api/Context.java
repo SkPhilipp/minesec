@@ -5,7 +5,6 @@ import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
 import org.openqa.selenium.WebDriver;
 
-import java.util.Optional;
 import java.util.function.Consumer;
 
 /**
@@ -13,14 +12,27 @@ import java.util.function.Consumer;
  */
 public interface Context {
 
+    enum type {
+        PAGE, REQUEST, RESPONSE
+    }
+
     WebDriver getWebDriver();
 
     void queue(Consumer<WebDriver> task);
 
+    Context forRequest(HttpRequest request);
+
     HttpRequest getRequest();
+
+    Context forResponse(HttpResponse response);
 
     HttpResponse getResponse();
 
     ODatabaseDocumentTx getDatabase();
 
+    String getId();
+
+    Context getParent();
+
+    // TODO[CORE]: Create API to add a Finding, auto-create Browser, PageLoad, Request, Response, Run and Target.
 }

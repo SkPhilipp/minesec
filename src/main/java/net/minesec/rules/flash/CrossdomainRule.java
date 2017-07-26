@@ -18,6 +18,6 @@ public class CrossdomainRule implements Rule {
 
     @Override
     public void apply(Context ctx) {
-        // TODO: Inspect crossdomain.xml
+        // TODO[RULE]: Inspect crossdomain.xml
     }
 }

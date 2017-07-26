@@ -14,6 +14,6 @@ public class FormDisabledRule implements Rule {
 
     @Override
     public void apply(Context ctx) {
-        // TODO: Check for disabled fields and report them
+        // TODO[RULE]: Check for disabled fields and report them
     }
 }

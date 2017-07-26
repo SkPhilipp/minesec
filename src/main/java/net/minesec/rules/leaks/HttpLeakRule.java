@@ -15,6 +15,6 @@ public class HttpLeakRule implements Rule {
 
     @Override
     public void apply(Context ctx) {
-        // TODO: Check if the response contains any personal data
+        // TODO[RULE]: Check if the response contains any personal data
     }
 }

@@ -38,11 +38,11 @@ public class SpiderPageRule implements Rule {
         webDriver.findElements(By.cssSelector("[href]")).stream()
                 .map(webElement -> webElement.getAttribute("href"))
                 .forEach(href -> {
-                    // TODO: Use a domain whitelist
-                    // TODO: Use a shared set of URLs
-                    // TODO: Use a shared set of whitelisted domains
-                    // TODO: Spider could identify page structure as not to crawl the same type of page more than N times
-                    // TODO: Spider could identify login and registration forms and automatically authorize
+                    // TODO[CORE]: Use a domain whitelist
+                    // TODO[CORE]: Use a shared set of URLs
+                    // TODO[CORE]: Use a shared set of whitelisted domains
+                    // TODO[CORE]: Spider could identify page structure as not to crawl the same type of page more than N times
+                    // TODO[RULE]: Spider could identify login and registration forms and automatically authorize
                     if (!this.urls.contains(href)) {
                         this.urls.add(href);
                         ctx.queue(webDriver1 -> {

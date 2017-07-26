@@ -6,7 +6,6 @@ import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
 import net.minesec.rules.Rules;
 import net.minesec.rules.api.Context;
-import net.minesec.rules.api.ContextImpl;
 import net.minesec.rules.api.Rule;
 import org.littleshoot.proxy.HttpFiltersAdapter;
 
@@ -15,11 +14,9 @@ import org.littleshoot.proxy.HttpFiltersAdapter;
  */
 class RuleCallingHttpFilter extends HttpFiltersAdapter {
 
-    private final ContextImpl context;
+    private Context context;
 
-    RuleCallingHttpFilter(HttpRequest originalRequest,
-                          ChannelHandlerContext ctx,
-                          ContextImpl context) {
+    RuleCallingHttpFilter(HttpRequest originalRequest, ChannelHandlerContext ctx, Context context) {
         super(originalRequest, ctx);
         this.context = context;
         Rules.invokeAll(Rule.Moment.SETUP, this.context);
@@ -29,10 +26,10 @@ class RuleCallingHttpFilter extends HttpFiltersAdapter {
     public HttpResponse proxyToServerRequest(HttpObject httpObject) {
         if (httpObject instanceof HttpRequest) {
             final HttpRequest httpRequest = (HttpRequest) httpObject;
-            this.context.setRequest(httpRequest);
+            this.context = this.context.forRequest(httpRequest);
             Rules.invokeAll(Rule.Moment.REQUEST, this.context);
         }
-        // Allow faked responses from the context object
+        // TODO[CORE]: Allow faked responses from the context object
         final HttpResponse response = this.context.getResponse();
         return response != null ? response : super.proxyToServerRequest(httpObject);
     }
@@ -41,10 +38,10 @@ class RuleCallingHttpFilter extends HttpFiltersAdapter {
     public HttpObject proxyToClientResponse(HttpObject httpObject) {
         if (httpObject instanceof HttpResponse) {
             final HttpResponse httpResponse = (HttpResponse) httpObject;
-            this.context.setResponse(httpResponse);
+            this.context = this.context.forResponse(httpResponse);
             Rules.invokeAll(Rule.Moment.RESPONSE, this.context);
         }
-        // Allow faked responses from the context object
+        // TODO[CORE]: Allow faked responses from the context object
         final HttpResponse response = this.context.getResponse();
         return response != null ? response : super.proxyToClientResponse(httpObject);
     }

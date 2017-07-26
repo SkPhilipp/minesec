@@ -14,6 +14,6 @@ public class PageLinksRule implements Rule {
 
     @Override
     public void apply(Context ctx) {
-        // TODO: Find links using [href], [src], [action]
+        // TODO[RULE]: Find links using [href], [src], [action]
     }
 }

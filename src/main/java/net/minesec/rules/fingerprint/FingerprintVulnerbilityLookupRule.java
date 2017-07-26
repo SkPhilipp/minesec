@@ -14,6 +14,6 @@ public class FingerprintVulnerbilityLookupRule implements Rule {
 
     @Override
     public void apply(Context ctx) {
-        // TODO: Vulnerability lookup for the respective technologies and versions
+        // TODO[RULE]: Vulnerability lookup for the respective technologies and versions
     }
 }

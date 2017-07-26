@@ -15,6 +15,6 @@ public class CommentsLeakRule implements Rule {
 
     @Override
     public void apply(Context ctx) {
-        // TODO: Find interesting comments that don't match common licenses
+        // TODO[RULE]: Find interesting comments that don't match common licenses
     }
 }
