@@ -3,8 +3,6 @@ package net.minesec.spider;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.HttpRequest;
 import lombok.Setter;
-import net.minesec.rules.api.Context;
-import net.minesec.rules.api.ContextImpl;
 import org.littleshoot.proxy.HttpFilters;
 import org.littleshoot.proxy.HttpFiltersSource;
 

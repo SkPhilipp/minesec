@@ -10,14 +10,10 @@ import java.util.Date;
 @Data
 public class Finding {
 
-    enum Level {
-        ONE, TWO, THREE, FOUR, FIVE
-    }
-
     private String contextId;
     private Date moment;
     private String type;
-    private Level level;
+    private Integer level;
     private String trigger;
 
 }

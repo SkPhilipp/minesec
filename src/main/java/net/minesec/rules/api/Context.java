@@ -12,19 +12,11 @@ import java.util.function.Consumer;
  */
 public interface Context {
 
-    enum type {
-        PAGE, REQUEST, RESPONSE
-    }
-
     WebDriver getWebDriver();
 
     void queue(Consumer<WebDriver> task);
 
-    Context forRequest(HttpRequest request);
-
     HttpRequest getRequest();
-
-    Context forResponse(HttpResponse response);
 
     HttpResponse getResponse();
 
@@ -34,5 +26,4 @@ public interface Context {
 
     Context getParent();
 
-    // TODO[CORE]: Create API to add a Finding, auto-create Browser, PageLoad, Request, Response, Run and Target.
 }

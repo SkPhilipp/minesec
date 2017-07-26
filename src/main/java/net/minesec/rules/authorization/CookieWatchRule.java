@@ -6,7 +6,6 @@ import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpResponse;
 import net.minesec.rules.api.Context;
 import net.minesec.rules.api.Rule;
-import net.minesec.rules.fingerprint.FingerprintingRule;
 
 /**
  * Copyright (c) 21-7-17, MineSec. All rights reserved.
@@ -14,12 +13,7 @@ import net.minesec.rules.fingerprint.FingerprintingRule;
 public class CookieWatchRule implements Rule {
 
     @Override
-    public Moment moment() {
-        return Moment.RESPONSE;
-    }
-
-    @Override
-    public void apply(Context ctx) {
+    public void onResponse(Context ctx) {
         final HttpResponse response = ctx.getResponse();
         if (response instanceof FullHttpResponse) {
             FullHttpResponse fullHttpResponse = (FullHttpResponse) response;

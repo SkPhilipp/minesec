@@ -13,13 +13,8 @@ import net.minesec.rules.api.Rule;
 public class FingerprintingRule implements Rule {
 
     @Override
-    public Moment moment() {
-        return Moment.RESPONSE;
-    }
-
-    @Override
-    public void apply(Context ctx) {
-        // TODO[RULE]: If possible, implement https://github.com/AliasIO/Wappalyzer if license-possible
+    public void onResponse(Context ctx) {
+        // TODO[RULE]: If license possible, implement https://github.com/AliasIO/Wappalyzer
         final HttpResponse response = ctx.getResponse();
         if (response instanceof FullHttpResponse) {
             FullHttpResponse fullHttpResponse = (FullHttpResponse) response;

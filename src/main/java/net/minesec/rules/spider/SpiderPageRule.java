@@ -24,37 +24,29 @@ public class SpiderPageRule implements Rule {
     }
 
     @Override
-    public Moment moment() {
-        return Moment.PAGE_LOAD;
-    }
+    public void onPageLoad(Context ctx) {
+        final WebDriver sourceWebDriver = ctx.getWebDriver();
 
-    @Override
-    public void apply(Context ctx) {
-        final WebDriver webDriver = ctx.getWebDriver();
-
-        System.out.println(webDriver.getCurrentUrl());
-        webDriver.findElements(By.cssSelector("button"));
-        webDriver.findElements(By.cssSelector("form"));
-        webDriver.findElements(By.cssSelector("[href]")).stream()
+        System.out.println(sourceWebDriver.getCurrentUrl());
+        sourceWebDriver.findElements(By.cssSelector("button"));
+        sourceWebDriver.findElements(By.cssSelector("form"));
+        sourceWebDriver.findElements(By.cssSelector("[href]")).stream()
                 .map(webElement -> webElement.getAttribute("href"))
                 .forEach(href -> {
-                    // TODO[CORE]: Use a domain whitelist
+                    // TODO[CORE]: Use a shared domain whitelist
                     // TODO[CORE]: Use a shared set of URLs
-                    // TODO[CORE]: Use a shared set of whitelisted domains
-                    // TODO[CORE]: Spider could identify page structure as not to crawl the same type of page more than N times
-                    // TODO[RULE]: Spider could identify login and registration forms and automatically authorize
                     if (!this.urls.contains(href)) {
                         this.urls.add(href);
-                        ctx.queue(webDriver1 -> {
-                            webDriver1.get(href);
-                            WebDriverWait webDriverWait = new WebDriverWait(webDriver, 60);
+                        ctx.queue(webDriver -> {
+                            webDriver.get(href);
+                            WebDriverWait webDriverWait = new WebDriverWait(sourceWebDriver, 60);
                             webDriverWait.until(jsDriver -> ((JavascriptExecutor) jsDriver).executeScript("return document.readyState").equals("complete"));
                         });
                     }
                 });
-        List<WebElement> a2 = webDriver.findElements(By.cssSelector("[src]"));
-        webDriver.findElements(By.cssSelector("[class^='btn']"));
-        webDriver.findElements(By.cssSelector("[class^='button']"));
-        webDriver.findElements(By.cssSelector("[onclick]"));
+        List<WebElement> a2 = sourceWebDriver.findElements(By.cssSelector("[src]"));
+        sourceWebDriver.findElements(By.cssSelector("[class^='btn']"));
+        sourceWebDriver.findElements(By.cssSelector("[class^='button']"));
+        sourceWebDriver.findElements(By.cssSelector("[onclick]"));
     }
 }

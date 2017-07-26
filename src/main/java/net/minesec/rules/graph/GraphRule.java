@@ -9,14 +9,9 @@ import net.minesec.rules.api.Rule;
  * Copyright (c) 21-7-17, MineSec. All rights reserved.
  */
 public class GraphRule implements Rule {
-    @Override
-    public Moment moment() {
-        return Moment.RESPONSE;
-    }
 
     @Override
-    public void apply(Context ctx) {
-        // TODO[CORE]: Multiple moments
+    public void onResponse(Context ctx) {
         final ODatabaseDocumentTx db = ctx.getDatabase();
         final ODocument meta = db.newInstance(this.getClass().getSimpleName());
         meta.field("context", ctx.getId());

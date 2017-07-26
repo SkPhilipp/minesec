@@ -9,12 +9,7 @@ import net.minesec.rules.api.Rule;
 public class HttpLeakRule implements Rule {
 
     @Override
-    public Moment moment() {
-        return Moment.RESPONSE;
-    }
-
-    @Override
-    public void apply(Context ctx) {
+    public void onResponse(Context ctx) {
         // TODO[RULE]: Check if the response contains any personal data
     }
 }

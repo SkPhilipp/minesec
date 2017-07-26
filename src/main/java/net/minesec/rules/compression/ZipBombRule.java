@@ -8,12 +8,7 @@ import net.minesec.rules.api.Rule;
  */
 public class ZipBombRule implements Rule {
     @Override
-    public Moment moment() {
-        return Moment.SETUP;
-    }
-
-    @Override
-    public void apply(Context ctx) {
+    public void onSetup(Context ctx) {
         // TODO[RULE]: Submitting a zip-bomb
     }
 }

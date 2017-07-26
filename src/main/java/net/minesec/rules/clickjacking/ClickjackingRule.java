@@ -12,12 +12,7 @@ import net.minesec.rules.api.Rule;
  */
 public class ClickjackingRule implements Rule {
     @Override
-    public Moment moment() {
-        return Moment.RESPONSE;
-    }
-
-    @Override
-    public void apply(Context ctx) {
+    public void onResponse(Context ctx) {
         final HttpResponse response = ctx.getResponse();
         final HttpHeaders headers = response.headers();
         final String xFrameOptions = headers.get("X-Frame-Options");

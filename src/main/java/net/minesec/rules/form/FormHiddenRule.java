@@ -7,13 +7,9 @@ import net.minesec.rules.api.Rule;
  * Copyright (c) 21-7-17, MineSec. All rights reserved.
  */
 public class FormHiddenRule implements Rule {
-    @Override
-    public Moment moment() {
-        return Moment.PAGE_LOAD;
-    }
 
     @Override
-    public void apply(Context ctx) {
+    public void onPageLoad(Context ctx) {
         // TODO[RULE]: Check for hidden fields and report them
     }
 }
