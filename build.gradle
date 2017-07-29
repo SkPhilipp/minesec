@@ -20,6 +20,5 @@ dependencies {
     compile 'com.github.ganskef:littleproxy-mitm:1.1.0'
     compile 'com.zaxxer:HikariCP:2.6.3'
     compile 'com.j256.ormlite:ormlite-jdbc:5.0'
-
     testCompile 'junit:junit:4.12'
 }

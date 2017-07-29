@@ -36,8 +36,7 @@ public class SpiderPageRule implements Consumer<ContextBuilder> {
             sourceWebDriver.findElements(By.cssSelector("[href]")).stream()
                     .map(webElement -> webElement.getAttribute("href"))
                     .forEach(href -> {
-                        // TODO[CORE]: Use a shared domain whitelist
-                        // TODO[CORE]: Use a shared set of URLs
+                        // TODO: Use a shared domains whitelist & accessed URLs
                         if (!this.urls.contains(href)) {
                             this.urls.add(href);
                             ctx.getWebDriverPool().queue(webDriver -> {

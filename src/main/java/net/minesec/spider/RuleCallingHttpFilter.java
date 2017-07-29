@@ -29,9 +29,7 @@ class RuleCallingHttpFilter extends HttpFiltersAdapter {
             this.context = this.context.forRequest(httpRequest);
             context.dispatch(REQUEST);
         }
-        // TODO[CORE]: Allow faked responses from the contextImpl object
-        // return response != null ? response : super.proxyToServerRequest(httpObject);
-        return null;
+        return context.getMockResponse();
     }
 
     @Override
@@ -41,8 +39,6 @@ class RuleCallingHttpFilter extends HttpFiltersAdapter {
             this.context = this.context.forResponse(httpResponse);
             context.dispatch(RESPONSE);
         }
-        // TODO[CORE]: Allow faked responses from the contextImpl object
-        // return response != null ? response : super.proxyToServerRequest(httpObject);
-        return null;
+        return context.getMockResponse();
     }
 }
