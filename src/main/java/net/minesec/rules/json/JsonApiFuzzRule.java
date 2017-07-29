@@ -13,7 +13,7 @@ public class JsonApiFuzzRule implements Consumer<ContextBuilder> {
 
     @Override
     public void accept(ContextBuilder contextBuilder) {
-        contextBuilder.on(RESPONSE, ctx -> {
+        contextBuilder.addEventListener(RESPONSE, ctx -> {
             // TODO: Implement this rule
             // - JSON API discovery and fuzzing
             // - Submitting a single-use request multiple times in parallel ( example; gift cards )

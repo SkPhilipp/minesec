@@ -27,7 +27,7 @@ public class SpiderPageRule implements Consumer<ContextBuilder> {
 
     @Override
     public void accept(ContextBuilder contextBuilder) {
-        contextBuilder.on(RESPONSE, ctx -> {
+        contextBuilder.addEventListener(RESPONSE, ctx -> {
             final WebDriver sourceWebDriver = ctx.getWebDriver();
 
             System.out.println(sourceWebDriver.getCurrentUrl());

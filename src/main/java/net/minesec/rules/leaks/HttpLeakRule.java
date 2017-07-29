@@ -13,7 +13,7 @@ public class HttpLeakRule implements Consumer<ContextBuilder> {
 
     @Override
     public void accept(ContextBuilder contextBuilder) {
-        contextBuilder.on(RESPONSE, ctx -> {
+        contextBuilder.addEventListener(RESPONSE, ctx -> {
             // TODO: Implement this rule
             // Check if the response contains data entered by other browsers
         });

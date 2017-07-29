@@ -1,8 +1,12 @@
-package net.minesec.rules.api;
+package net.minesec.rules.api.impl;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
 import lombok.Getter;
+import lombok.Setter;
+import net.minesec.rules.api.Context;
+import net.minesec.rules.api.ContextBuilder;
+import net.minesec.rules.api.Database;
 import net.minesec.spider.WebDriverPool;
 import org.openqa.selenium.WebDriver;
 
@@ -31,6 +35,8 @@ public class ContextBuilderImpl implements ContextBuilder {
         private final Context parent;
         private final HttpRequest request;
         private final HttpResponse response;
+        @Setter
+        private HttpResponse mockResponse;
 
         ContextImpl(Pool<WebDriver> webDriverPool, Context parent, WebDriver webDriver, HttpRequest request, HttpResponse response) {
             this.webDriverPool = webDriverPool;
@@ -70,8 +76,8 @@ public class ContextBuilderImpl implements ContextBuilder {
     }
 
     @Override
-    public void on(ContextEvent event, Consumer<Context> rule) {
-        eventHandlers.computeIfAbsent(event, (ignored) -> new ArrayList<>()).add(rule);
+    public void addEventListener(ContextEvent event, Consumer<Context> listener) {
+        eventHandlers.computeIfAbsent(event, (ignored) -> new ArrayList<>()).add(listener);
     }
 
     @Override

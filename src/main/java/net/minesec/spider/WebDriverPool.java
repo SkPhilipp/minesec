@@ -1,7 +1,7 @@
 package net.minesec.spider;
 
 import net.minesec.rules.api.ContextBuilder;
-import net.minesec.rules.api.Pool;
+import net.minesec.rules.api.impl.Pool;
 import org.littleshoot.proxy.HttpProxyServer;
 import org.littleshoot.proxy.MitmManager;
 import org.littleshoot.proxy.impl.DefaultHttpProxyServer;

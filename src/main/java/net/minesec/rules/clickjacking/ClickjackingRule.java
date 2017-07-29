@@ -17,7 +17,7 @@ public class ClickjackingRule implements Consumer<ContextBuilder> {
 
     @Override
     public void accept(ContextBuilder contextBuilder) {
-        contextBuilder.on(RESPONSE, ctx -> {
+        contextBuilder.addEventListener(RESPONSE, ctx -> {
             final HttpResponse response = ctx.getResponse();
             final HttpHeaders headers = response.headers();
             final String xFrameOptions = headers.get("X-Frame-Options");

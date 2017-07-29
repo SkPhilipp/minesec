@@ -13,7 +13,7 @@ public class CommentsLeakRule implements Consumer<ContextBuilder> {
 
     @Override
     public void accept(ContextBuilder contextBuilder) {
-        contextBuilder.on(RESPONSE, ctx -> {
+        contextBuilder.addEventListener(RESPONSE, ctx -> {
             // TODO: Implement this rule
             // Find comments that don't match anything contained in common licenses or libraries
         });

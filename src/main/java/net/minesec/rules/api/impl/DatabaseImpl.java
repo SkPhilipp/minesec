@@ -1,4 +1,4 @@
-package net.minesec.spider;
+package net.minesec.rules.api.impl;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;

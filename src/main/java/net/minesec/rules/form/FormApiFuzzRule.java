@@ -13,7 +13,7 @@ public class FormApiFuzzRule implements Consumer<ContextBuilder> {
 
     @Override
     public void accept(ContextBuilder contextBuilder) {
-        contextBuilder.on(PAGELOAD, ctx -> {
+        contextBuilder.addEventListener(PAGELOAD, ctx -> {
             // TODO: Implement this rule
             // - Form discovery and fuzzing
             // - Identify weaknesses (ie CORS-bypassing forms)

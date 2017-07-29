@@ -17,7 +17,7 @@ public class FingerprintingRule implements Consumer<ContextBuilder> {
 
     @Override
     public void accept(ContextBuilder contextBuilder) {
-        contextBuilder.on(RESPONSE, ctx -> {
+        contextBuilder.addEventListener(RESPONSE, ctx -> {
             final HttpResponse response = ctx.getResponse();
             if (response instanceof FullHttpResponse) {
                 FullHttpResponse fullHttpResponse = (FullHttpResponse) response;

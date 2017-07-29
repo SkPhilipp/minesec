@@ -15,13 +15,13 @@ public class PathfindRule implements Consumer<ContextBuilder> {
     @Override
     public void accept(ContextBuilder contextBuilder) {
         // TODO: Implement this rule
-        contextBuilder.on(RESPONSE, ctx -> {
+        contextBuilder.addEventListener(RESPONSE, ctx -> {
             // Find links in JS, CSS, HTML comments
             // Find links in JSON responses
             // Find links using [href], [src], [action]
             // Find links using [href], [src], [action]
         });
-        contextBuilder.on(SETUP, ctx -> {
+        contextBuilder.addEventListener(SETUP, ctx -> {
             // Find paths in robots.txt, especially disallowed paths
         });
     }

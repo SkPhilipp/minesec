@@ -1,4 +1,4 @@
-package net.minesec.rules.api;
+package net.minesec.rules.api.impl;
 
 import org.eclipse.jetty.util.BlockingArrayQueue;
 
@@ -27,8 +27,8 @@ public abstract class Pool<T> {
     }
 
     /**
-     * @param task a task which essentially leases a type T.
-     *             this task must return only when the type T is free to use for other tasks.
+     * @param task a task which leases a type T until the task returns the
+     *             task is executed as soon as an entry becomes available
      */
     public void queue(Consumer<T> task) {
         T entry = this.ready.poll();

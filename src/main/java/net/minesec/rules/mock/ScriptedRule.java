@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import static net.minesec.rules.api.ContextBuilder.ContextEvent.RESPONSE;
-import static net.minesec.rules.api.Utilities.silenced;
+import static net.minesec.rules.api.impl.Utilities.silenced;
 
 /**
  * Copyright (c) 21-7-17, MineSec. All rights reserved.
@@ -32,7 +32,7 @@ public class ScriptedRule implements Consumer<ContextBuilder> {
             final Dao<Script, ?> dao = contextBuilder.getDatabase().getDao(Script.class);
             final List<String> scriptList = new ArrayList<>();
             dao.iterator().forEachRemaining(script -> scriptList.add(script.getContent()));
-            contextBuilder.on(RESPONSE, ctx -> {
+            contextBuilder.addEventListener(RESPONSE, ctx -> {
                 final Bindings bindings = engine.createBindings();
                 bindings.put("ctx", ctx);
                 scriptList.forEach(silenced(engine::eval));

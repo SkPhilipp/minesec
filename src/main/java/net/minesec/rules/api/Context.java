@@ -2,6 +2,7 @@ package net.minesec.rules.api;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
+import net.minesec.rules.api.impl.Pool;
 import org.openqa.selenium.WebDriver;
 
 import static net.minesec.rules.api.ContextBuilder.ContextEvent;
@@ -38,8 +39,6 @@ public interface Context {
 
     /**
      * Dispatches an event, triggering all bound event listeners.
-     *
-     * @param event any {@link ContextEvent}
      */
     void dispatch(ContextEvent event);
 
@@ -60,22 +59,18 @@ public interface Context {
     Context getParent();
 
     /**
-     * @param request {@link HttpRequest} to bind to
-     * @return a new {@link Context} bound to the same {@link WebDriver} as this
+     * @return a new {@link Context} bound to the given parameter, and the same {@link WebDriver} as this
      */
     Context forRequest(HttpRequest request);
 
     /**
      * @param response {@link HttpResponse} to bind to
-     * @return a new {@link Context} bound to the same {@link WebDriver} and {@link HttpRequest} as this
+     * @return a new {@link Context} bound to the given parameter, and the same {@link WebDriver} and {@link HttpRequest} as this
      */
     Context forResponse(HttpResponse response);
 
     /**
-     * Sets a mock {@link HttpResponse} to be retrieved instead of the actual request response
-     * that this {@link Context} may be bound to.
-     *
-     * @param mockResponse the mock response
+     * Sets a {@link HttpResponse} to be sent to the client
      */
     void setMockResponse(HttpResponse mockResponse);
 

@@ -13,7 +13,7 @@ public class ZipBombRule implements Consumer<ContextBuilder> {
 
     @Override
     public void accept(ContextBuilder contextBuilder) {
-        contextBuilder.on(SETUP, ctx -> {
+        contextBuilder.addEventListener(SETUP, ctx -> {
             // TODO: Implement this rule
             // Perform a Zip-Bomb on the target URLs, if enabled
             // These auxiliary routines should be executed when the underlying tech stack changes

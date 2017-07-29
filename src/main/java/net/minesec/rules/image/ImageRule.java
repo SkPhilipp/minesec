@@ -13,7 +13,7 @@ public class ImageRule implements Consumer<ContextBuilder> {
 
     @Override
     public void accept(ContextBuilder contextBuilder) {
-        contextBuilder.on(RESPONSE, ctx -> {
+        contextBuilder.addEventListener(RESPONSE, ctx -> {
             // TODO: Implement this rule
             // Check sizes of images and look for hints in the request to whether the size is variable
             // Perform requests for larger images

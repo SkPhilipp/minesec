@@ -9,6 +9,9 @@ import java.sql.SQLException;
  */
 public interface Database {
 
+    /**
+     * An active {@link Dao} for the given type
+     */
     <T> Dao<T, ?> getDao(Class<T> type) throws SQLException;
 
 }

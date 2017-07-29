@@ -1,4 +1,4 @@
-package net.minesec.rules.api;
+package net.minesec.rules.api.impl;
 
 import lombok.extern.slf4j.Slf4j;
 

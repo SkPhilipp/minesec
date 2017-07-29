@@ -13,16 +13,39 @@ import java.util.function.Consumer;
 public interface ContextBuilder {
 
     enum ContextEvent {
+        /**
+         * On creation of a {@link Context}
+         */
         SETUP,
+        /**
+         * When a page requested by a {@link WebDriver} loads
+         */
         PAGELOAD,
+        /**
+         * When a request is about to be sent to the target
+         */
         REQUEST,
+        /**
+         * When a response is about to be sent to the client
+         */
         RESPONSE
     }
 
+    /**
+     * @return an instance of {@link Database}
+     */
     Database getDatabase();
 
-    void on(ContextEvent event, Consumer<Context> rule);
+    /**
+     * Registers an event listener for all {@link Context}s built and to be built using this {@link ContextBuilder}
+     */
+    void addEventListener(ContextEvent event, Consumer<Context> listener);
 
+    /**
+     * Creates a new {@link Context} which may dispatch to all registered event listeners
+     *
+     * @return a new {@link Context}
+     */
     Context build(WebDriverPool webDriverPool, WebDriver webDriver, HttpRequest request, HttpResponse response);
 
 }
