@@ -1,7 +1,5 @@
 package net.minesec.rules.api;
 
-import com.orientechnologies.orient.core.db.OPartitionedDatabasePool;
-import com.orientechnologies.orient.core.db.document.ODatabaseDocumentTx;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
 import lombok.Getter;
@@ -16,11 +14,11 @@ import java.util.function.Consumer;
  */
 public class ContextBuilderImpl implements ContextBuilder {
 
-    private final OPartitionedDatabasePool oPartitionedDatabasePool;
+    private final Database database;
     private final Map<ContextEvent, List<Consumer<Context>>> eventHandlers;
 
-    public ContextBuilderImpl(OPartitionedDatabasePool oPartitionedDatabasePool) {
-        this.oPartitionedDatabasePool = oPartitionedDatabasePool;
+    public ContextBuilderImpl(Database database) {
+        this.database = database;
         this.eventHandlers = new HashMap<>();
     }
 
@@ -61,15 +59,14 @@ public class ContextBuilderImpl implements ContextBuilder {
         }
 
         @Override
-        public ODatabaseDocumentTx getDatabase() {
-            return oPartitionedDatabasePool.acquire();
+        public Database getDatabase() {
+            return database;
         }
-
     }
 
     @Override
-    public ODatabaseDocumentTx getDatabase() {
-        return oPartitionedDatabasePool.acquire();
+    public Database getDatabase() {
+        return database;
     }
 
     @Override

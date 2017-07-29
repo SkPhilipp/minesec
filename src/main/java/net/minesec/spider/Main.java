@@ -1,10 +1,11 @@
 package net.minesec.spider;
 
-import com.orientechnologies.orient.core.db.OPartitionedDatabasePool;
-import com.orientechnologies.orient.core.db.OPartitionedDatabasePoolFactory;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import net.minesec.rules.api.Context;
 import net.minesec.rules.api.ContextBuilder;
 import net.minesec.rules.api.ContextBuilderImpl;
+import net.minesec.rules.api.Database;
 import net.minesec.rules.authorization.CookieWatchRule;
 import net.minesec.rules.clickjacking.ClickjackingRule;
 import net.minesec.rules.compression.ZipBombRule;
@@ -22,6 +23,7 @@ import org.littleshoot.proxy.mitm.RootCertificateException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -34,7 +36,6 @@ import static net.minesec.rules.api.ContextBuilder.ContextEvent.PAGELOAD;
 class Main {
 
     private static final int SESSIONS_LIMIT = 10;
-    private static final int DB_POOL_LIMIT = 100;
     private static final List<Consumer<ContextBuilder>> ALL;
 
     static {
@@ -54,11 +55,16 @@ class Main {
         ALL.add(new SpiderPageRule());
     }
 
-    public static void main(String[] args) throws InterruptedException, RootCertificateException {
-        final OPartitionedDatabasePoolFactory dbPoolFactory = new OPartitionedDatabasePoolFactory(DB_POOL_LIMIT);
-        dbPoolFactory.setMaxPoolSize(DB_POOL_LIMIT);
-        final OPartitionedDatabasePool dbPool = dbPoolFactory.get("remote:localhost/minesec", "admin", "admin");
-        ContextBuilder contextBuilder = new ContextBuilderImpl(dbPool);
+    public static void main(String[] args) throws InterruptedException, RootCertificateException, SQLException {
+        HikariConfig config = new HikariConfig();
+        config.setDataSourceClassName("org.h2.jdbcx.JdbcDataSource");
+        config.setConnectionTestQuery("VALUES 1");
+        config.addDataSourceProperty("URL", "jdbc:h2:~/test");
+        config.addDataSourceProperty("user", "sa");
+        config.addDataSourceProperty("password", "sa");
+        HikariDataSource dataSource = new HikariDataSource(config);
+        Database database = new DatabaseImpl(dataSource);
+        ContextBuilder contextBuilder = new ContextBuilderImpl(database);
         ALL.parallelStream().forEach(consumer -> consumer.accept(contextBuilder));
         try (WebDriverPool webDriverPool = new WebDriverPool(8080, SESSIONS_LIMIT, contextBuilder)) {
             webDriverPool.queue(webDriver -> {
@@ -70,7 +76,7 @@ class Main {
             });
             Thread.sleep(1000 * 60 * 60 * 24);
         } finally {
-            dbPool.close();
+            dataSource.close();
         }
     }
 }

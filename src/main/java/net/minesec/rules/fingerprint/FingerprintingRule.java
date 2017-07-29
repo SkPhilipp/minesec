@@ -1,11 +1,11 @@
 package net.minesec.rules.fingerprint;
 
-import com.orientechnologies.orient.core.db.document.ODatabaseDocumentTx;
-import com.orientechnologies.orient.core.record.impl.ODocument;
+import com.j256.ormlite.dao.Dao;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpResponse;
 import net.minesec.rules.api.ContextBuilder;
 
+import java.sql.SQLException;
 import java.util.function.Consumer;
 
 import static net.minesec.rules.api.ContextBuilder.ContextEvent.RESPONSE;
@@ -23,13 +23,18 @@ public class FingerprintingRule implements Consumer<ContextBuilder> {
             if (response instanceof FullHttpResponse) {
                 FullHttpResponse fullHttpResponse = (FullHttpResponse) response;
                 final String setCookieHeader = fullHttpResponse.headers().get("Set-Cookie");
+                // TODO: Kotlin maybe? Would avoid a lot of these null checks and extra if's
                 if (setCookieHeader != null && setCookieHeader.contains("JSESSIONID")) {
                     // TODO[RULE]: Vulnerability lookup for the respective technologies and versions
-                    final ODatabaseDocumentTx db = ctx.getDatabase();
-                    final ODocument meta = db.newInstance(this.getClass().getSimpleName());
-                    meta.field("match", "JSESSIONID");
-                    meta.field("value", "java");
-                    db.save(meta);
+                    try {
+                        final Dao<Fingerprint, ?> dao = ctx.getDatabase().getDao(Fingerprint.class);
+                        final Fingerprint fingerprint = new Fingerprint();
+                        fingerprint.setTechnology("java");
+                        fingerprint.setTechnology("JSESSIONID cookie");
+                        dao.create(fingerprint);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });

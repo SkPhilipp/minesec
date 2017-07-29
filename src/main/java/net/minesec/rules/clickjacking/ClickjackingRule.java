@@ -1,11 +1,11 @@
 package net.minesec.rules.clickjacking;
 
-import com.orientechnologies.orient.core.db.document.ODatabaseDocumentTx;
-import com.orientechnologies.orient.core.record.impl.ODocument;
+import com.j256.ormlite.dao.Dao;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpResponse;
 import net.minesec.rules.api.ContextBuilder;
 
+import java.sql.SQLException;
 import java.util.function.Consumer;
 
 import static net.minesec.rules.api.ContextBuilder.ContextEvent.RESPONSE;
@@ -24,17 +24,28 @@ public class ClickjackingRule implements Consumer<ContextBuilder> {
             if (xFrameOptions != null) {
                 if (!xFrameOptions.equals("DENY")
                         && !xFrameOptions.equals("SAMEORIGIN")) {
-                    final ODatabaseDocumentTx db = ctx.getDatabase();
-                    final ODocument xFrameOptionsMeta = db.newInstance(this.getClass().getSimpleName());
-                    xFrameOptionsMeta.field("match", "ALLOW-FROM");
-                    xFrameOptionsMeta.field("value", xFrameOptions);
-                    db.save(xFrameOptionsMeta);
+                    try {
+                        final Dao<ClickjackablePage, ?> dao = ctx.getDatabase().getDao(ClickjackablePage.class);
+                        ClickjackablePage clickjackablePage = new ClickjackablePage();
+                        clickjackablePage.setFrameOptions(xFrameOptions);
+                        clickjackablePage.setTrigger("Header is not on DENY");
+                        clickjackablePage.setUrl(ctx.getRequest().getUri());
+                        dao.create(clickjackablePage);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                 }
             } else {
-                final ODatabaseDocumentTx db = ctx.getDatabase();
-                final ODocument xFrameOptionsMeta = db.newInstance(this.getClass().getSimpleName());
-                xFrameOptionsMeta.field("match", "MISSING");
-                db.save(xFrameOptionsMeta);
+                try {
+                    final Dao<ClickjackablePage, ?> dao = ctx.getDatabase().getDao(ClickjackablePage.class);
+                    ClickjackablePage clickjackablePage = new ClickjackablePage();
+                    clickjackablePage.setFrameOptions("");
+                    clickjackablePage.setTrigger("Header is missing");
+                    clickjackablePage.setUrl(ctx.getRequest().getUri());
+                    dao.create(clickjackablePage);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

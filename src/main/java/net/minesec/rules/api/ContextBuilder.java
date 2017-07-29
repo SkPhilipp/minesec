@@ -1,6 +1,5 @@
 package net.minesec.rules.api;
 
-import com.orientechnologies.orient.core.db.document.ODatabaseDocumentTx;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
 import net.minesec.spider.WebDriverPool;
@@ -20,7 +19,7 @@ public interface ContextBuilder {
         RESPONSE
     }
 
-    ODatabaseDocumentTx getDatabase();
+    Database getDatabase();
 
     void on(ContextEvent event, Consumer<Context> rule);
 

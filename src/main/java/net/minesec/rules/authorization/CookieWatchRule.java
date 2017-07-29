@@ -1,11 +1,12 @@
 package net.minesec.rules.authorization;
 
-import com.orientechnologies.orient.core.db.document.ODatabaseDocumentTx;
-import com.orientechnologies.orient.core.record.impl.ODocument;
+import com.j256.ormlite.dao.Dao;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpResponse;
 import net.minesec.rules.api.ContextBuilder;
 
+import java.sql.SQLException;
+import java.util.Date;
 import java.util.function.Consumer;
 
 import static net.minesec.rules.api.ContextBuilder.ContextEvent.RESPONSE;
@@ -23,11 +24,16 @@ public class CookieWatchRule implements Consumer<ContextBuilder> {
                 FullHttpResponse fullHttpResponse = (FullHttpResponse) response;
                 final String setCookieHeader = fullHttpResponse.headers().get("Set-Cookie");
                 if (setCookieHeader != null) {
-                    final ODatabaseDocumentTx db = ctx.getDatabase();
-                    ODocument doc = db.newInstance("HeaderChange");
-                    doc.field("message", "Set-Cookie");
-                    doc.field("cookie", setCookieHeader);
-                    db.save(doc);
+                    try {
+                        final Dao<CookieChange, ?> dao = ctx.getDatabase().getDao(CookieChange.class);
+                        CookieChange cookieChange = new CookieChange();
+                        cookieChange.setCookie(setCookieHeader);
+                        cookieChange.setMoment(new Date());
+                        dao.create(cookieChange);
+                    } catch (SQLException e) {
+                        // TODO: Shared exception logging
+                        e.printStackTrace();
+                    }
                 }
             }
         });
