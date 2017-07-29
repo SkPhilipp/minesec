@@ -18,14 +18,11 @@ public class FingerprintingRule implements Consumer<ContextBuilder> {
     @Override
     public void accept(ContextBuilder contextBuilder) {
         contextBuilder.on(RESPONSE, ctx -> {
-            // TODO[RULE]: If license possible, implement https://github.com/AliasIO/Wappalyzer
             final HttpResponse response = ctx.getResponse();
             if (response instanceof FullHttpResponse) {
                 FullHttpResponse fullHttpResponse = (FullHttpResponse) response;
                 final String setCookieHeader = fullHttpResponse.headers().get("Set-Cookie");
-                // TODO: Kotlin maybe? Would avoid a lot of these null checks and extra if's
                 if (setCookieHeader != null && setCookieHeader.contains("JSESSIONID")) {
-                    // TODO[RULE]: Vulnerability lookup for the respective technologies and versions
                     try {
                         final Dao<Fingerprint, ?> dao = ctx.getDatabase().getDao(Fingerprint.class);
                         final Fingerprint fingerprint = new Fingerprint();

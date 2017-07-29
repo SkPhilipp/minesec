@@ -17,21 +17,6 @@
     sudo apt-get install libnss3-tools
     certutil -d sql:$HOME/.pki/nssdb -A -t TC -n "MineSec" -i ./littleproxy-mitm.pem
 
-## Utilities
-
-    gradle run -Pcrawl=https://4chan.org
-    gradle run -Pindex
-
----
-
-    ODocument doc = db.newInstance("Header-Change");
-    doc.field("name", "P");
-    doc.field("surname", "nG");
-    doc.field("city", db.newInstance("City")
-            .field("name", "Rome")
-            .field("country", "Italy"));
-    db.save(doc);
-
 # TODOs:
 
 ## Must have
@@ -41,17 +26,10 @@
 - Vulnerable test site
   Setup with VMs:
   https://www.owasp.org/index.php/OWASP_Vulnerable_Web_Applications_Directory_Project/Pages/VMs
-- OrientDB Installation
-  wget https://orientdb.com/download.php?file=orientdb-community-importers-2.2.24.tar.gz&os=linux
-  find-replace /home/philipp/Downloads/orientdb-community-importers-2.2.24
-  find-replace philipp
-  To install OrientDB as a service on an init-based unix or Linux system, copy the modified orientdb.sh file from $ORIENTDB_HOME/bin into /etc/init.d/:
-  cp $ORIENTDB_HOME/bin/orientdb.sh /etc/init.d/orientdb
-  open localhost:2480
-  ./orientdb.sh start
-  vim config/orientdb-server-config.xml
-    replace root pw with a plaintext one for local development
-    go to localhost:2480 and create a new db
+- Research viability of Kotlin
+- \[Fingerprint rule\] If license possible, implement https://github.com/AliasIO/Wappalyzer
+- \[Fingerprint rule\] Vulnerability lookup for the respective technologies and versions
+- \[Crossdomain Rule\] Implement crossdomain.xml checker
 
 ## Nice to have
 
@@ -60,8 +38,3 @@
 ## Uncategorized ideas
 
 - Authorizing a browser (& blocking logout calls?, verifying email, verifying phone)
-
-## Not in scope
-
-- DNS Scanner integrations
-- Port Scanner integrations

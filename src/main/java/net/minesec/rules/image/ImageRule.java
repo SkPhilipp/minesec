@@ -14,7 +14,9 @@ public class ImageRule implements Consumer<ContextBuilder> {
     @Override
     public void accept(ContextBuilder contextBuilder) {
         contextBuilder.on(RESPONSE, ctx -> {
-            // TODO[[RULE]: Image size limit checker
+            // TODO: Implement this rule
+            // Check sizes of images and look for hints in the request to whether the size is variable
+            // Perform requests for larger images
         });
     }
 

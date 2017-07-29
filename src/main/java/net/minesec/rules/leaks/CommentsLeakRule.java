@@ -14,7 +14,8 @@ public class CommentsLeakRule implements Consumer<ContextBuilder> {
     @Override
     public void accept(ContextBuilder contextBuilder) {
         contextBuilder.on(RESPONSE, ctx -> {
-            // TODO[RULE]: Find interesting comments that don't match common licenses
+            // TODO: Implement this rule
+            // Find comments that don't match anything contained in common licenses or libraries
         });
     }
 

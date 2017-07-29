@@ -6,13 +6,13 @@ import net.minesec.rules.api.ContextBuilder;
 import javax.script.Bindings;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
 import static net.minesec.rules.api.ContextBuilder.ContextEvent.RESPONSE;
+import static net.minesec.rules.api.Utilities.silenced;
 
 /**
  * Copyright (c) 21-7-17, MineSec. All rights reserved.
@@ -35,15 +35,7 @@ public class ScriptedRule implements Consumer<ContextBuilder> {
             contextBuilder.on(RESPONSE, ctx -> {
                 final Bindings bindings = engine.createBindings();
                 bindings.put("ctx", ctx);
-                scriptList.forEach(script -> {
-                    // TODO: Common logging wrapper for consumers
-                    try {
-                        engine.eval(script);
-                    } catch (ScriptException e) {
-                        // TODO[RULE] Use a common logging system
-                        e.printStackTrace();
-                    }
-                });
+                scriptList.forEach(silenced(engine::eval));
             });
         } catch (SQLException e) {
             e.printStackTrace();
