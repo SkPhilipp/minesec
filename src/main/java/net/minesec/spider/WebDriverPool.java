@@ -1,9 +1,12 @@
 package net.minesec.spider;
 
-import org.littleshoot.proxy.HttpFiltersSource;
+import net.minesec.rules.api.ContextBuilder;
+import net.minesec.rules.api.Pool;
 import org.littleshoot.proxy.HttpProxyServer;
 import org.littleshoot.proxy.MitmManager;
 import org.littleshoot.proxy.impl.DefaultHttpProxyServer;
+import org.littleshoot.proxy.mitm.CertificateSniffingMitmManager;
+import org.littleshoot.proxy.mitm.RootCertificateException;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -34,18 +37,19 @@ public class WebDriverPool extends Pool<WebDriver> implements Closeable {
     private final List<HttpProxyServer> httpProxyServers;
     private final int basePort;
     private final MitmManager mitmManager;
-    private final HttpFiltersSource httpFiltersSource;
+    private final ContextBuilder contextBuilder;
 
-    WebDriverPool(int basePort, int limit, MitmManager mitmManager, HttpFiltersSource httpFiltersSource) {
+    WebDriverPool(int basePort, int limit, ContextBuilder contextBuilder) throws RootCertificateException {
         super(limit);
         this.basePort = basePort;
-        this.mitmManager = mitmManager;
-        this.httpFiltersSource = httpFiltersSource;
+        this.mitmManager = new CertificateSniffingMitmManager();
+        this.contextBuilder = contextBuilder;
         this.webdrivers = new ArrayList<>();
         this.httpProxyServers = new ArrayList<>();
     }
 
     protected WebDriver create() {
+        RuleCallingHttpFiltersSource httpFiltersSource = new RuleCallingHttpFiltersSource();
         final HttpProxyServer httpProxyServer = DefaultHttpProxyServer.bootstrap()
                 .withAllowLocalOnly(true)
                 .withTransparent(true)
@@ -64,6 +68,7 @@ public class WebDriverPool extends Pool<WebDriver> implements Closeable {
         capabilities.setCapability(CAPABILITY, chromeOptions);
         capabilities.setCapability(CapabilityType.PROXY, proxy);
         final ChromeDriver chromeDriver = new ChromeDriver(ChromeDriverService.createDefaultService(), capabilities);
+        httpFiltersSource.setContextSupplier(() -> contextBuilder.build(this, chromeDriver, null, null));
         this.httpProxyServers.add(httpProxyServer);
         this.webdrivers.add(chromeDriver);
         return chromeDriver;

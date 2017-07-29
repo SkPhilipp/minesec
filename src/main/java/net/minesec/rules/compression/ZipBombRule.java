@@ -1,14 +1,21 @@
 package net.minesec.rules.compression;
 
-import net.minesec.rules.api.Context;
-import net.minesec.rules.api.Rule;
+import net.minesec.rules.api.ContextBuilder;
+
+import java.util.function.Consumer;
+
+import static net.minesec.rules.api.ContextBuilder.ContextEvent.RESPONSE;
 
 /**
  * Copyright (c) 21-7-17, MineSec. All rights reserved.
  */
-public class ZipBombRule implements Rule {
+public class ZipBombRule implements Consumer<ContextBuilder> {
+
     @Override
-    public void onSetup(Context ctx) {
-        // TODO[RULE]: Submitting a zip-bomb
+    public void accept(ContextBuilder contextBuilder) {
+        contextBuilder.on(RESPONSE, ctx -> {
+            // TODO[RULE]: Implement
+        });
     }
+
 }

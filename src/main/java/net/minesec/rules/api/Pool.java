@@ -1,4 +1,4 @@
-package net.minesec.spider;
+package net.minesec.rules.api;
 
 import org.eclipse.jetty.util.BlockingArrayQueue;
 
@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 /**
  * Copyright (c) 16-7-17, MineSec. All rights reserved.
  */
-abstract class Pool<T> {
+public abstract class Pool<T> {
 
     private final Queue<Consumer<T>> queue;
     private final Queue<T> ready;
@@ -18,7 +18,7 @@ abstract class Pool<T> {
     private int active;
     private final ExecutorService executorService;
 
-    Pool(int limit) {
+    public Pool(int limit) {
         this.queue = new BlockingArrayQueue<>();
         this.ready = new BlockingArrayQueue<>();
         this.limit = limit;
@@ -30,7 +30,7 @@ abstract class Pool<T> {
      * @param task a task which essentially leases a type T.
      *             this task must return only when the type T is free to use for other tasks.
      */
-    void queue(Consumer<T> task) {
+    public void queue(Consumer<T> task) {
         T entry = this.ready.poll();
         if (entry == null) {
             if (this.active < this.limit) {
