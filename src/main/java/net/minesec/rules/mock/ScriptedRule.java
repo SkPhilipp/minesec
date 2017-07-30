@@ -2,6 +2,7 @@ package net.minesec.rules.mock;
 
 import com.j256.ormlite.dao.Dao;
 import net.minesec.rules.api.ContextBuilder;
+import net.minesec.rules.api.Database;
 
 import javax.script.Bindings;
 import javax.script.ScriptEngine;
@@ -29,7 +30,9 @@ public class ScriptedRule implements Consumer<ContextBuilder> {
     @Override
     public void accept(ContextBuilder contextBuilder) {
         try {
-            final Dao<Script, ?> dao = contextBuilder.getDatabase().getDao(Script.class);
+            final Database database = contextBuilder.getDatabase();
+            database.setup(Script.class);
+            final Dao<Script, ?> dao = database.getDao(Script.class);
             final List<String> scriptList = new ArrayList<>();
             dao.iterator().forEachRemaining(script -> scriptList.add(script.getContent()));
             contextBuilder.addEventListener(RESPONSE, ctx -> {
@@ -38,7 +41,7 @@ public class ScriptedRule implements Consumer<ContextBuilder> {
                 scriptList.forEach(silenced(engine::eval));
             });
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new IllegalStateException(e);
         }
     }
 

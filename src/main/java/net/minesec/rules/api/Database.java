@@ -14,4 +14,9 @@ public interface Database {
      */
     <T> Dao<T, ?> getDao(Class<T> type) throws SQLException;
 
+    /**
+     * Creates a table for the given type if it does not exist
+     */
+    void setup(Class<?> type) throws SQLException;
+
 }

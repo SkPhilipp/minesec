@@ -4,6 +4,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.db.H2DatabaseType;
 import com.j256.ormlite.jdbc.DataSourceConnectionSource;
+import com.j256.ormlite.table.TableUtils;
 import net.minesec.rules.api.Database;
 
 import javax.sql.DataSource;
@@ -23,6 +24,11 @@ public class DatabaseImpl implements Database {
     @Override
     public <T> Dao<T, ?> getDao(Class<T> type) throws SQLException {
         return DaoManager.createDao(dataSourceConnectionSource, type);
+    }
+
+    @Override
+    public void setup(Class<?> type) throws SQLException {
+        TableUtils.createTableIfNotExists(dataSourceConnectionSource, type);
     }
 
 

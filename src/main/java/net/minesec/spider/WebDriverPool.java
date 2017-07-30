@@ -55,7 +55,7 @@ public class WebDriverPool extends Pool<WebDriver> implements Closeable {
                 .withTransparent(true)
                 .withFiltersSource(httpFiltersSource)
                 .withManInTheMiddle(mitmManager)
-                .withPort(basePort + httpProxyServers.size())
+                .withPort(0)
                 .start();
         final InetSocketAddress address = httpProxyServer.getListenAddress();
         final String proxyAddress = String.format("%s:%d", address.getHostName(), address.getPort());

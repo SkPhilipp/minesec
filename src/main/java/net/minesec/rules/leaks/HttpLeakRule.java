@@ -16,6 +16,7 @@ public class HttpLeakRule implements Consumer<ContextBuilder> {
         contextBuilder.addEventListener(RESPONSE, ctx -> {
             // TODO: Implement this rule
             // Check if the response contains data entered by other browsers
+            // Find code comments that don't match anything contained in common licenses or libraries
         });
     }
 

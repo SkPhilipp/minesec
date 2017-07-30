@@ -15,7 +15,6 @@ import net.minesec.rules.form.FormApiFuzzRule;
 import net.minesec.rules.graph.GraphRule;
 import net.minesec.rules.image.ImageRule;
 import net.minesec.rules.json.JsonApiFuzzRule;
-import net.minesec.rules.leaks.CommentsLeakRule;
 import net.minesec.rules.leaks.HttpLeakRule;
 import net.minesec.rules.mock.ScriptedRule;
 import net.minesec.rules.pathfind.PathfindRule;
@@ -49,7 +48,6 @@ class Main {
         ALL.add(new GraphRule());
         ALL.add(new ImageRule());
         ALL.add(new JsonApiFuzzRule());
-        ALL.add(new CommentsLeakRule());
         ALL.add(new HttpLeakRule());
         ALL.add(new ScriptedRule());
         ALL.add(new PathfindRule());

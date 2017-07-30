@@ -17,24 +17,29 @@ public class FingerprintingRule implements Consumer<ContextBuilder> {
 
     @Override
     public void accept(ContextBuilder contextBuilder) {
-        contextBuilder.addEventListener(RESPONSE, ctx -> {
-            final HttpResponse response = ctx.getResponse();
-            if (response instanceof FullHttpResponse) {
-                FullHttpResponse fullHttpResponse = (FullHttpResponse) response;
-                final String setCookieHeader = fullHttpResponse.headers().get("Set-Cookie");
-                if (setCookieHeader != null && setCookieHeader.contains("JSESSIONID")) {
-                    try {
-                        final Dao<Fingerprint, ?> dao = ctx.getDatabase().getDao(Fingerprint.class);
-                        final Fingerprint fingerprint = new Fingerprint();
-                        fingerprint.setTechnology("java");
-                        fingerprint.setTechnology("JSESSIONID cookie");
-                        dao.create(fingerprint);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
+        try {
+            contextBuilder.getDatabase().setup(Fingerprint.class);
+            contextBuilder.addEventListener(RESPONSE, ctx -> {
+                final HttpResponse response = ctx.getResponse();
+                if (response instanceof FullHttpResponse) {
+                    FullHttpResponse fullHttpResponse = (FullHttpResponse) response;
+                    final String setCookieHeader = fullHttpResponse.headers().get("Set-Cookie");
+                    if (setCookieHeader != null && setCookieHeader.contains("JSESSIONID")) {
+                        try {
+                            final Dao<Fingerprint, ?> dao = ctx.getDatabase().getDao(Fingerprint.class);
+                            final Fingerprint fingerprint = new Fingerprint();
+                            fingerprint.setTechnology("java");
+                            fingerprint.setTechnology("JSESSIONID cookie");
+                            dao.create(fingerprint);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
-            }
-        });
+            });
+        } catch (SQLException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
 }

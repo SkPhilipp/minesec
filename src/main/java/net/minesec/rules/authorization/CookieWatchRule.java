@@ -6,6 +6,7 @@ import io.netty.handler.codec.http.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
 import net.minesec.rules.api.ContextBuilder;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.function.Consumer;
 
@@ -20,20 +21,25 @@ public class CookieWatchRule implements Consumer<ContextBuilder> {
 
     @Override
     public void accept(ContextBuilder contextBuilder) {
-        contextBuilder.addEventListener(RESPONSE, silenced(ctx -> {
-            final HttpResponse response = ctx.getResponse();
-            if (response instanceof FullHttpResponse) {
-                FullHttpResponse fullHttpResponse = (FullHttpResponse) response;
-                final String setCookieHeader = fullHttpResponse.headers().get("Set-Cookie");
-                if (setCookieHeader != null) {
-                    final Dao<CookieChange, ?> dao = ctx.getDatabase().getDao(CookieChange.class);
-                    CookieChange cookieChange = new CookieChange();
-                    cookieChange.setCookie(setCookieHeader);
-                    cookieChange.setMoment(new Date());
-                    dao.create(cookieChange);
+        try {
+            contextBuilder.getDatabase().setup(CookieChange.class);
+            contextBuilder.addEventListener(RESPONSE, silenced(ctx -> {
+                final HttpResponse response = ctx.getResponse();
+                if (response instanceof FullHttpResponse) {
+                    FullHttpResponse fullHttpResponse = (FullHttpResponse) response;
+                    final String setCookieHeader = fullHttpResponse.headers().get("Set-Cookie");
+                    if (setCookieHeader != null) {
+                        final Dao<CookieChange, ?> dao = ctx.getDatabase().getDao(CookieChange.class);
+                        CookieChange cookieChange = new CookieChange();
+                        cookieChange.setCookie(setCookieHeader);
+                        cookieChange.setMoment(new Date());
+                        dao.create(cookieChange);
+                    }
                 }
-            }
-        }));
+            }));
+        } catch (SQLException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
 }
