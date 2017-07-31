@@ -14,6 +14,6 @@ import java.util.Date;
 class CookieChange {
     @DatabaseField(canBeNull = false)
     private Date moment;
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(canBeNull = false, width = 3000)
     private String cookie;
 }

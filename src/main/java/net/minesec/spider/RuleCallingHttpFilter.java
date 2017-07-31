@@ -39,6 +39,7 @@ class RuleCallingHttpFilter extends HttpFiltersAdapter {
             this.context = this.context.forResponse(httpResponse);
             context.dispatch(RESPONSE);
         }
-        return context.getMockResponse();
+        final HttpResponse mockResponse = context.getMockResponse();
+        return mockResponse == null ? httpObject : mockResponse;
     }
 }

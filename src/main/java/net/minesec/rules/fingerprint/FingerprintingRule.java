@@ -29,7 +29,7 @@ public class FingerprintingRule implements Consumer<ContextBuilder> {
                             final Dao<Fingerprint, ?> dao = ctx.getDatabase().getDao(Fingerprint.class);
                             final Fingerprint fingerprint = new Fingerprint();
                             fingerprint.setTechnology("java");
-                            fingerprint.setTechnology("JSESSIONID cookie");
+                            fingerprint.setTrigger("JSESSIONID cookie");
                             dao.create(fingerprint);
                         } catch (SQLException e) {
                             e.printStackTrace();

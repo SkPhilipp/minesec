@@ -11,6 +11,6 @@ import lombok.Data;
 @Data
 @DatabaseTable
 class Script {
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(canBeNull = false, width = 30000)
     private String content;
 }

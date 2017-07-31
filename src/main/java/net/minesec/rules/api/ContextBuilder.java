@@ -2,7 +2,7 @@ package net.minesec.rules.api;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
-import net.minesec.spider.WebDriverPool;
+import net.minesec.rules.api.impl.Pool;
 import org.openqa.selenium.WebDriver;
 
 import java.util.function.Consumer;
@@ -46,6 +46,6 @@ public interface ContextBuilder {
      *
      * @return a new {@link Context}
      */
-    Context build(WebDriverPool webDriverPool, WebDriver webDriver, HttpRequest request, HttpResponse response);
+    Context build(Pool<WebDriver> webDriverPool, WebDriver webDriver, HttpRequest request, HttpResponse response);
 
 }

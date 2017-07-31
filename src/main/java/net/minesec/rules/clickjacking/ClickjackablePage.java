@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 @DatabaseTable
 class ClickjackablePage {
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(canBeNull = false, width = 3000)
     private String url;
     @DatabaseField(canBeNull = false)
     private String trigger;

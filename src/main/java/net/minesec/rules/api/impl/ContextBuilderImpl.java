@@ -7,7 +7,6 @@ import lombok.Setter;
 import net.minesec.rules.api.Context;
 import net.minesec.rules.api.ContextBuilder;
 import net.minesec.rules.api.Database;
-import net.minesec.spider.WebDriverPool;
 import org.openqa.selenium.WebDriver;
 
 import java.util.*;
@@ -81,7 +80,7 @@ public class ContextBuilderImpl implements ContextBuilder {
     }
 
     @Override
-    public Context build(WebDriverPool webDriverPool, WebDriver webDriver, HttpRequest request, HttpResponse response) {
+    public Context build(Pool<WebDriver> webDriverPool, WebDriver webDriver, HttpRequest request, HttpResponse response) {
         return new ContextImpl(webDriverPool, null, webDriver, request, response);
     }
 }

@@ -58,7 +58,7 @@ class Main {
         HikariConfig config = new HikariConfig();
         config.setDataSourceClassName("org.h2.jdbcx.JdbcDataSource");
         config.setConnectionTestQuery("VALUES 1");
-        config.addDataSourceProperty("URL", "jdbc:h2:~/test");
+        config.addDataSourceProperty("URL", "jdbc:h2:~/test;DB_CLOSE_ON_EXIT=FALSE");
         config.addDataSourceProperty("user", "sa");
         config.addDataSourceProperty("password", "sa");
         HikariDataSource dataSource = new HikariDataSource(config);

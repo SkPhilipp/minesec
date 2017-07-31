@@ -33,7 +33,12 @@ public abstract class Pool<T> {
     public void queue(Consumer<T> task) {
         T entry = this.ready.poll();
         if (entry == null) {
-            if (this.active < this.limit) {
+            boolean createNew;
+            synchronized (this) {
+                createNew = this.active < this.limit;
+                this.active++;
+            }
+            if (createNew) {
                 entry = this.create();
                 this.submit(task, entry);
             } else {

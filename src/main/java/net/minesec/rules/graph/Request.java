@@ -16,6 +16,6 @@ class Request {
     private String contextId;
     @DatabaseField(canBeNull = false)
     private Date moment;
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(canBeNull = false, width = 3000)
     private String url;
 }
